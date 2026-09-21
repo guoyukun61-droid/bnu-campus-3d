@@ -1,0 +1,8 @@
+{
+  "version": "20260905-v5",
+  "mesh_objects": 250,
+  "polygons": 288097,
+  "windows": 41077,
+  "trees": 900,
+  "texture_source": "UTM-reprojected GF2 and 25 candidate roof UV alignments; facades unobserved"
+}

@@ -1,0 +1,202 @@
+{
+  "version": "20260905-v5",
+  "created_utc": "2026-09-05T10:50:27.443034+00:00",
+  "source_inventory": [
+    {
+      "file": "GF2_PMS1_E116_3_N39_9_20250624_L1A14720897001_ORTHO_PSH.tif",
+      "crs": "EPSG:4326",
+      "bounds": [
+        116.088544,
+        39.781279999999995,
+        116.41564,
+        40.027007999999995
+      ],
+      "shape": [
+        4,
+        30716,
+        40887
+      ],
+      "resolution": [
+        8e-06,
+        8e-06
+      ],
+      "bands": [
+        "GF2 Blue (0.450 - 0.520) um",
+        "GF2 Green (0.520 - 0.590) um",
+        "GF2 Red (0.630 - 0.690) um",
+        "GF2 NIR (0.770 - 0.890) um"
+      ],
+      "timestamp": "2025:06:24 10:06:21.000",
+      "campus_valid_fraction_sampled": 1.0,
+      "selected": true
+    },
+    {
+      "file": "GF2_PMS1_E116_3_N40_1_20250624_L1A14720896001_ORTHO_PSH.tif",
+      "crs": "EPSG:4326",
+      "bounds": [
+        116.142752,
+        39.958783999999994,
+        116.47056,
+        40.204119999999996
+      ],
+      "shape": [
+        4,
+        30667,
+        40976
+      ],
+      "resolution": [
+        8e-06,
+        8e-06
+      ],
+      "bands": [
+        "GF2 Blue (0.450 - 0.520) um",
+        "GF2 Green (0.520 - 0.590) um",
+        "GF2 Red (0.630 - 0.690) um",
+        "GF2 NIR (0.770 - 0.890) um"
+      ],
+      "timestamp": "2025:06:24 10:06:18.000",
+      "campus_valid_fraction_sampled": 0.0,
+      "selected": false
+    },
+    {
+      "file": "GF2_PMS2_E116_5_N39_9_20250624_L1A14721015001_ORTHO_PSH.tif",
+      "crs": "EPSG:4326",
+      "bounds": [
+        116.344712,
+        39.734088,
+        116.67187200000001,
+        39.97984
+      ],
+      "shape": [
+        4,
+        30719,
+        40895
+      ],
+      "resolution": [
+        8e-06,
+        8e-06
+      ],
+      "bands": [
+        "GF2 Blue (0.450 - 0.520) um",
+        "GF2 Green (0.520 - 0.590) um",
+        "GF2 Red (0.630 - 0.690) um",
+        "GF2 NIR (0.770 - 0.890) um"
+      ],
+      "timestamp": "2025:06:24 10:06:21.000",
+      "campus_valid_fraction_sampled": 0.0,
+      "selected": false
+    },
+    {
+      "file": "GF2_PMS2_E116_6_N40_0_20250624_L1A14721014001_ORTHO_PSH.tif",
+      "crs": "EPSG:4326",
+      "bounds": [
+        116.39806399999999,
+        39.90692,
+        116.72604799999999,
+        40.152528
+      ],
+      "shape": [
+        4,
+        30701,
+        40998
+      ],
+      "resolution": [
+        8e-06,
+        8e-06
+      ],
+      "bands": [
+        "GF2 Blue (0.450 - 0.520) um",
+        "GF2 Green (0.520 - 0.590) um",
+        "GF2 Red (0.630 - 0.690) um",
+        "GF2 NIR (0.770 - 0.890) um"
+      ],
+      "timestamp": "2025:06:24 10:06:18.000",
+      "campus_valid_fraction_sampled": 0.0,
+      "selected": false
+    }
+  ],
+  "selected_source": "D:\\BaiduNetdiskDownload\\GF2-20250624\\beijingdata2025\\GF2_PMS1_E116_3_N39_9_20250624_L1A14720897001_ORTHO_PSH.tif",
+  "source_bytes": 9503009575,
+  "source_selection": "retain full-valid PMS1 campus source; other swaths inventoried, not mosaicked",
+  "source_bands_verified": true,
+  "crs": "EPSG:32650",
+  "origin_utm": [
+    445334.2137655129,
+    4423619.17603345
+  ],
+  "local_extent_m": [
+    -452.7741209216765,
+    -601.6686532227322,
+    452.703328348638,
+    601.6953894896433
+  ],
+  "pixel_size_m": [
+    0.799891739638087,
+    0.7995774370181897
+  ],
+  "shape": [
+    1505,
+    1132
+  ],
+  "valid_fraction": 1.0,
+  "old_uv_mapping_discrepancy": {
+    "grid_points": 441,
+    "median_m": 3.38381752487212,
+    "max_m": 11.021913075578768,
+    "note": "Old UV/interpolation-induced discrepancy only; not measured absolute geolocation error."
+  },
+  "display_stretch": {
+    "percentiles": [
+      0.5,
+      99.8
+    ],
+    "low_dn": [
+      145.74484252929688,
+      247.56918334960938,
+      413.13739013671875
+    ],
+    "high_dn": [
+      860.7943725585938,
+      877.0568237304688,
+      954.7937622070312
+    ],
+    "gamma": 0.72,
+    "black_lift": 0.035,
+    "note": "display stretch, not calibrated reflectance"
+  },
+  "roof_relative_registration": {
+    "global_seed_pixel_shift": [
+      -5,
+      -18
+    ],
+    "global_seed_meter_shift": [
+      -3.999458698190435,
+      14.392393866327415
+    ],
+    "red_pixels": 54441,
+    "accepted_red_roofs": 25,
+    "caution": "relative image-to-footprint hypothesis; not ground-control registration"
+  },
+  "method": "deterministic spectral candidates constrained by existing OSM footprints",
+  "buildings": 231,
+  "roof_class_counts": {
+    "gray_mixed_roof": 102,
+    "light_roof": 3,
+    "blue_green_roof": 62,
+    "uncertain": 39,
+    "red_roof": 25
+  },
+  "vegetation_candidates": 900,
+  "vegetation_candidate_cap": 900,
+  "vegetation_candidate_pool": 1899,
+  "vegetation_fraction": 0.21893042038904476,
+  "dn_index_threshold": 0.08,
+  "shadow_brightness_dn_threshold": 322.133056640625,
+  "limitations": [
+    "No calibrated reflectance",
+    "No independent ground control or classification accuracy measured",
+    "OSM outlines unchanged; off-nadir rooftop displacement and temporal mismatch may remain",
+    "Facades, window positions and building heights are not recovered from this nadir image",
+    "Attached artistic reference is not used as spectral or survey ground truth"
+  ]
+}

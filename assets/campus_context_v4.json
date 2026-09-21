@@ -1,0 +1,1084 @@
+{
+  "version": "white-v4",
+  "boundary": [
+    [
+      -424,
+      325
+    ],
+    [
+      -405,
+      -460
+    ],
+    [
+      -390,
+      -469
+    ],
+    [
+      359,
+      -469
+    ],
+    [
+      383,
+      -444
+    ],
+    [
+      379,
+      -220
+    ],
+    [
+      355,
+      90
+    ],
+    [
+      337,
+      340
+    ]
+  ],
+  "boundary_source": "manual approximate trace: user historical campus map + existing GF2 UTM image",
+  "disclaimer": "按主校区范围分色，不表示产权。边界外也可能有学校附属区域；未确认建筑归属。",
+  "counts": {
+    "inside": 135,
+    "outside": 89,
+    "uncertain": 9
+  },
+  "buildings": {
+    "172257581": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "172257582": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "172257584": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "172257585": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "172257586": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "179358287": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "179358288": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "179358289": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "179358290": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "179358291": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "182114919": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267944894": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267944895": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267944896": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267944897": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267944899": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267944900": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267944902": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267944906": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267944907": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267944908": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267944909": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267944910": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267944911": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267944912": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267944913": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267944914": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267944915": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267944917": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267944918": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267944919": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267946184": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267946186": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267946189": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267946192": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267946193": {
+      "classification": "uncertain",
+      "overlap_fraction": 1.0
+    },
+    "267946194": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267946195": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267946196": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267946198": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267946199": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267947991": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267948003": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267948023": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267948024": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267948025": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267948584": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267948885": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267948886": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267948887": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267948888": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267948889": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267948890": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267948891": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267948892": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "267948893": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "294110459": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "294110460": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "294110461": {
+      "classification": "uncertain",
+      "overlap_fraction": 1.0
+    },
+    "297127777": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "297127778": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "297127779": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "297127780": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "297127781": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "297127782": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "297127783": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "297127785": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "297127786": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "297484161": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "319522945": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "361446563": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "399009831": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "399038560": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "399041103": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "489011598": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "499427391": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "499432986": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "499433000": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "499433263": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "499433322": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "499433323": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "499433329": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "499433834": {
+      "classification": "uncertain",
+      "overlap_fraction": 1.0
+    },
+    "499434918": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "499435186": {
+      "classification": "uncertain",
+      "overlap_fraction": 1.0
+    },
+    "499435187": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "499435188": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "499435300": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "499435539": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "499437078": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "499437130": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "506713323": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "540297385": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "540297386": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "540297387": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "540297388": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "544581116": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "544581117": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "544581118": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "544581122": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "544588928": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "544588930": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "544588947": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "544588949": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "544588951": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "544588952": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "544588954": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "556779086": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "556779087": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "556779088": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "637146709": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "637146714": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "637146717": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "657006453": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "657006454": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "657006455": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "657006456": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "657006457": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "657006458": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "657006459": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "657006460": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "657006461": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "657006462": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "657006463": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "657006466": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "657006659": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "657006660": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "657006780": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "657006781": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "657009594": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "657009595": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "657009596": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "657009597": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "657009598": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "657009599": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "657009600": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "657009601": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "665142819": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "665142820": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "665146203": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "665146204": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "665146205": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "665146206": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "665146861": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "665146862": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "665146863": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "665147264": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "665147528": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "665147529": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "665147530": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "665147531": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "665149132": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "665258722": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "665258723": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "665259181": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "665259182": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "665259183": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "665259184": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "665259186": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "665259187": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "665259188": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "665259189": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "665259190": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "665259371": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "665259372": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "665259373": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "665260273": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "665260275": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "665260276": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "665260277": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "680030073": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "680030074": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "681441378": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "681441379": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "681441380": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "681447595": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "682427715": {
+      "classification": "uncertain",
+      "overlap_fraction": 1.0
+    },
+    "682427716": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "682427717": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "682427718": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "682427719": {
+      "classification": "uncertain",
+      "overlap_fraction": 0.0
+    },
+    "682427720": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "682427721": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "682427722": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "682427723": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "682427724": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "682427725": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "682427726": {
+      "classification": "uncertain",
+      "overlap_fraction": 0.0
+    },
+    "682427727": {
+      "classification": "uncertain",
+      "overlap_fraction": 0.0
+    },
+    "682427728": {
+      "classification": "uncertain",
+      "overlap_fraction": 0.0
+    },
+    "682427729": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "682427730": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "682427731": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "682427732": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "893304053": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "893304054": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "893304057": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "893304058": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "893304273": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "893304274": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "893304279": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "893304280": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "893304281": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "893304282": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "959801255": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "1087856281": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "1087856282": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "1309218427": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "1321992518": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "1323721307": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "1324241618": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "1327982493": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "1337965298": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "1337965299": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "1337965301": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "1349493644": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "1377379915": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "1377379916": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "1377379919": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "1378295879": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "1381082299": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "1381895643": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "1382205271": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "1386554258": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "1386554259": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "1387671089": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "1387671090": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "1388502966": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "1459447295": {
+      "classification": "inside",
+      "overlap_fraction": 1.0
+    },
+    "1474663061": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "1518537437": {
+      "classification": "outside",
+      "overlap_fraction": 0.0
+    },
+    "900000000001": {
+      "classification": "inside",
+      "overlap_fraction": 1,
+      "source": "用户确认校内区域；截图+影像补建，非产权测绘"
+    },
+    "900000000002": {
+      "classification": "inside",
+      "overlap_fraction": 1,
+      "source": "用户确认校内区域；截图+影像补建，非产权测绘"
+    }
+  },
+  "gates": [
+    {
+      "id": "campus-gate-south",
+      "name": "南门",
+      "category": "gate",
+      "x": 45,
+      "y": -468,
+      "building_id": null,
+      "source": "用户提供校园标注图（2011影像/2012制图）+ GF2 2025参考定位；2026-09-21整理",
+      "status": "unverified",
+      "notes": "主校区入口近似点位，不是测量坐标；名称、现位置、是否开放与通行规则待核实。",
+      "hours": "",
+      "price": "",
+      "tags": [
+        "校门",
+        "位置待核实"
+      ]
+    },
+    {
+      "id": "campus-gate-east",
+      "name": "东门",
+      "category": "gate",
+      "x": 361,
+      "y": -46,
+      "building_id": null,
+      "source": "用户提供校园标注图（2011影像/2012制图）+ GF2 2025参考定位；2026-09-21整理",
+      "status": "unverified",
+      "notes": "主校区入口近似点位，不是测量坐标；名称、现位置、是否开放与通行规则待核实。",
+      "hours": "",
+      "price": "",
+      "tags": [
+        "校门",
+        "位置待核实"
+      ]
+    },
+    {
+      "id": "campus-gate-west",
+      "name": "西门",
+      "category": "gate",
+      "x": -414,
+      "y": 43,
+      "building_id": null,
+      "source": "用户提供校园标注图（2011影像/2012制图）+ GF2 2025参考定位；2026-09-21整理",
+      "status": "unverified",
+      "notes": "主校区入口近似点位，不是测量坐标；名称、现位置、是否开放与通行规则待核实。",
+      "hours": "",
+      "price": "",
+      "tags": [
+        "校门",
+        "位置待核实"
+      ]
+    },
+    {
+      "id": "campus-gate-north",
+      "name": "北门",
+      "category": "gate",
+      "x": 200,
+      "y": 337,
+      "building_id": null,
+      "source": "用户提供校园标注图（2011影像/2012制图）+ GF2 2025参考定位；2026-09-21整理",
+      "status": "unverified",
+      "notes": "主校区入口近似点位，不是测量坐标；名称、现位置、是否开放与通行规则待核实。",
+      "hours": "",
+      "price": "",
+      "tags": [
+        "校门",
+        "位置待核实"
+      ]
+    },
+    {
+      "id": "campus-gate-small-west",
+      "name": "小西门",
+      "category": "gate",
+      "x": -410,
+      "y": -333,
+      "building_id": null,
+      "source": "用户提供校园标注图（2011影像/2012制图）+ GF2 2025参考定位；2026-09-21整理",
+      "status": "unverified",
+      "notes": "主校区入口近似点位，不是测量坐标；名称、现位置、是否开放与通行规则待核实。",
+      "hours": "",
+      "price": "",
+      "tags": [
+        "校门",
+        "位置待核实"
+      ]
+    },
+    {
+      "id": "campus-gate-small-east",
+      "name": "小东门",
+      "category": "gate",
+      "x": 374,
+      "y": -377,
+      "building_id": null,
+      "source": "用户提供校园标注图（2011影像/2012制图）+ GF2 2025参考定位；2026-09-21整理",
+      "status": "unverified",
+      "notes": "主校区入口近似点位，不是测量坐标；名称、现位置、是否开放与通行规则待核实。",
+      "hours": "",
+      "price": "",
+      "tags": [
+        "校门",
+        "位置待核实"
+      ]
+    }
+  ]
+}

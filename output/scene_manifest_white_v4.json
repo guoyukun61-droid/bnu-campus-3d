@@ -1,0 +1,12 @@
+{
+  "version": "white-v4",
+  "added_buildings": 2,
+  "added_parts": 7,
+  "protected_meshes": 306,
+  "protected_geometry_check": true,
+  "baidu_reference": "user-supplied screenshots; not downloaded vectors",
+  "heights_measured": false,
+  "polygons": 242249,
+  "trees": 900,
+  "windows": null
+}

@@ -1,0 +1,25 @@
+# Private runtime state and credentials
+/data/
+.env
+.env.*
+*.pem
+*.key
+*.sqlite3*
+*.db
+__pycache__/
+*.pyc
+/releases/
+# Raw geospatial rasters and editor backups
+*.tif
+*.tiff
+*.blend1
+# Keep current deliverable only; historical files remain on disk
+/output/*
+!/output/bnu_campus_web_white_v4.glb
+!/output/bnu_campus_white_v4.blend
+!/output/bnu_campus_web_v5.glb
+!/output/bnu_campus_web_v6.glb
+!/output/scene_manifest_white_v4.json
+!/output/scene_manifest_v5.json
+!/output/scene_manifest_v6.json
+!/output/white_v4_spatial_checks.json

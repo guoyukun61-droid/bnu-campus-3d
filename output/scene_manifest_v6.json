@@ -1,0 +1,10 @@
+{
+  "version": "20260907-v6-reference-study",
+  "mesh_objects": 300,
+  "polygons": 238791,
+  "windows": 36484,
+  "trees": 900,
+  "texture_source": "Manual single-diagram interpretation, not measured reconstruction",
+  "reference_buildings": 47,
+  "reference_panels": 6455
+}

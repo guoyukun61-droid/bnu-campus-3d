@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>北师大三维校园图集｜BNU 3D Campus Atlas</title>
+  <style>
+    :root {
+      --ink: #e9eee9;
+      --muted: #93a19c;
+      --paper: #0b1112;
+      --panel: #101819;
+      --panel-2: #151f20;
+      --line: rgba(213, 229, 218, .16);
+      --acid: #b9f46b;
+      --cyan: #70d9ce;
+      --orange: #ff9b65;
+      --split: 48%;
+      --radius: 5px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        linear-gradient(rgba(112, 217, 206, .035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(112, 217, 206, .035) 1px, transparent 1px),
+        radial-gradient(circle at 82% 8%, rgba(112, 217, 206, .09), transparent 28rem),
+        var(--paper);
+      background-size: 38px 38px, 38px 38px, auto, auto;
+      font-family: "Microsoft YaHei UI", "PingFang SC", sans-serif;
+      letter-spacing: .01em;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .09;
+      z-index: 20;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+      mix-blend-mode: soft-light;
+    }
+
+    a { color: inherit; }
+    button, input { font: inherit; }
+    button { color: inherit; }
+
+    .shell {
+      width: min(1680px, 100%);
+      margin: 0 auto;
+      padding: 22px clamp(16px, 2vw, 34px) 54px;
+    }
+
+    .masthead {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 24px;
+      padding: 20px 0 24px;
+      border-bottom: 1px solid var(--line);
+      animation: settle .7s cubic-bezier(.2,.8,.2,1) both;
+    }
+
+    .eyebrow,
+    .mono {
+      font-family: Consolas, "Microsoft YaHei UI", monospace;
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      font-size: 11px;
+    }
+
+    .eyebrow { color: var(--acid); margin-bottom: 9px; }
+
+    h1 {
+      margin: 0;
+      font-family: "Bahnschrift SemiCondensed", "Microsoft YaHei UI", sans-serif;
+      font-size: clamp(34px, 5vw, 78px);
+      font-weight: 600;
+      line-height: .88;
+      letter-spacing: -.035em;
+      max-width: 1000px;
+    }
+
+    h1 span {
+      display: block;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: .31em;
+      line-height: 1.2;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .north-mark {
+      position: relative;
+      width: 82px;
+      height: 82px;
+      display: grid;
+      place-items: center;
+      color: var(--cyan);
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      font: 700 18px/1 Consolas, monospace;
+    }
+
+    .north-mark::after {
+      content: "";
+      position: absolute;
+      width: 1px;
+      height: 29px;
+      top: 8px;
+      background: var(--cyan);
+      box-shadow: -4px 8px 0 -2px var(--cyan), 4px 8px 0 -2px var(--cyan);
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 205px minmax(0, 1fr);
+      gap: clamp(16px, 2vw, 32px);
+      padding-top: 28px;
+    }
+
+    .rail {
+      border-right: 1px solid var(--line);
+      padding-right: 19px;
+      animation: rise .65s .1s ease both;
+    }
+
+    .rail-label {
+      color: var(--muted);
+      margin: 0 0 12px;
+    }
+
+    .stat {
+      padding: 13px 0 12px;
+      border-top: 1px solid var(--line);
+    }
+
+    .stat strong {
+      display: block;
+      font: 500 clamp(23px, 2.7vw, 38px)/1 "Bahnschrift SemiCondensed", sans-serif;
+      color: var(--ink);
+    }
+
+    .stat span { color: var(--muted); font-size: 12px; }
+
+    .data-note {
+      margin-top: 22px;
+      padding: 13px;
+      border-left: 2px solid var(--cyan);
+      background: rgba(112, 217, 206, .045);
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    .main { min-width: 0; animation: rise .65s .18s ease both; }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 11px;
+    }
+
+    .tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .tab,
+    .utility,
+    .file-link {
+      border: 1px solid var(--line);
+      background: rgba(16, 24, 25, .76);
+      border-radius: 999px;
+      padding: 8px 13px;
+      cursor: pointer;
+      transition: border-color .2s, background .2s, color .2s, transform .2s;
+      font-family: Consolas, "Microsoft YaHei UI", monospace;
+      font-size: 11px;
+      letter-spacing: .06em;
+      text-decoration: none;
+    }
+
+    .tab:hover,
+    .utility:hover,
+    .file-link:hover { transform: translateY(-1px); border-color: var(--cyan); }
+
+    .tab[aria-selected="true"] {
+      color: #081010;
+      background: var(--acid);
+      border-color: var(--acid);
+    }
+
+    .frame {
+      position: relative;
+      padding: clamp(7px, .8vw, 12px);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(185,244,107,.07), transparent 28%), #071011;
+      box-shadow: 0 28px 80px rgba(0,0,0,.36);
+    }
+
+    .frame::before,
+    .frame::after {
+      content: "";
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      pointer-events: none;
+      z-index: 8;
+    }
+
+    .frame::before { left: -1px; top: -1px; border-left: 2px solid var(--acid); border-top: 2px solid var(--acid); }
+    .frame::after { right: -1px; bottom: -1px; border-right: 2px solid var(--acid); border-bottom: 2px solid var(--acid); }
+
+    .compare-stage {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 2px;
+      background: #111;
+      user-select: none;
+      touch-action: none;
+      cursor: ew-resize;
+    }
+
+    .compare-stage img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .original {
+      z-index: 2;
+      clip-path: inset(0 calc(100% - var(--split)) 0 0);
+    }
+
+    .single-image {
+      z-index: 5;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .32s ease;
+    }
+
+    .single-image.visible { opacity: 1; }
+
+    .divider {
+      position: absolute;
+      z-index: 6;
+      top: 0;
+      bottom: 0;
+      left: var(--split);
+      width: 1px;
+      background: white;
+      box-shadow: 0 0 0 1px rgba(0,0,0,.35), 0 0 30px rgba(185,244,107,.5);
+      transform: translateX(-.5px);
+    }
+
+    .handle {
+      position: absolute;
+      z-index: 7;
+      top: 50%;
+      left: var(--split);
+      width: 45px;
+      height: 45px;
+      display: grid;
+      place-items: center;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.8);
+      color: #0b1112;
+      background: var(--acid);
+      font: 700 15px/1 Consolas, monospace;
+      box-shadow: 0 7px 30px rgba(0,0,0,.45);
+    }
+
+    .view-label {
+      position: absolute;
+      z-index: 8;
+      bottom: 12px;
+      padding: 6px 9px;
+      border-radius: 2px;
+      color: #eef5ed;
+      background: rgba(5,10,10,.72);
+      backdrop-filter: blur(8px);
+      font: 10px/1 Consolas, monospace;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .label-left { left: 12px; border-left: 2px solid var(--cyan); }
+    .label-right { right: 12px; border-right: 2px solid var(--acid); }
+
+    .compare-input {
+      position: absolute;
+      z-index: 9;
+      inset: 0;
+      width: 100%;
+      opacity: 0;
+      cursor: ew-resize;
+    }
+
+    .stage-meta {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 13px 2px 2px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .stage-meta strong { color: var(--ink); font-weight: 500; }
+
+    .method-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      margin-top: 28px;
+      border: 1px solid var(--line);
+      background: var(--line);
+    }
+
+    .method {
+      min-height: 170px;
+      padding: 22px;
+      background: var(--panel);
+      transition: background .2s;
+    }
+
+    .method:hover { background: var(--panel-2); }
+    .method .index { color: var(--acid); }
+    .method h2 { margin: 23px 0 8px; font: 500 19px/1.15 "Bahnschrift SemiCondensed", sans-serif; }
+    .method p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.7; }
+
+    .downloads {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 22px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+
+    .downloads .title { flex: 0 0 100%; color: var(--muted); margin-bottom: 2px; }
+    .file-link::before { content: "↗ "; color: var(--cyan); }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      margin-top: 34px;
+      padding-top: 15px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: .08em;
+    }
+
+    .deerflow {
+      color: var(--muted);
+      text-decoration: none;
+      opacity: .65;
+      transition: opacity .2s, color .2s;
+    }
+
+    .deerflow:hover { opacity: 1; color: var(--acid); }
+
+    dialog {
+      width: 96vw;
+      height: 94vh;
+      max-width: none;
+      max-height: none;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: #050808;
+      color: white;
+    }
+
+    dialog::backdrop { background: rgba(0,0,0,.86); backdrop-filter: blur(12px); }
+
+    .lightbox-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      cursor: zoom-in;
+      transition: transform .2s;
+    }
+
+    .lightbox-image.zoomed { transform: scale(1.8); cursor: zoom-out; }
+
+    .close {
+      position: fixed;
+      right: 4vw;
+      top: 5vh;
+      z-index: 30;
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      background: rgba(0,0,0,.65);
+      color: white;
+      cursor: pointer;
+    }
+
+    .hidden-control { opacity: 0; pointer-events: none; }
+
+    @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+    @keyframes settle { from { opacity: 0; transform: scale(.99); } to { opacity: 1; transform: none; } }
+
+    @media (max-width: 820px) {
+      .shell { padding-top: 10px; }
+      .masthead { align-items: center; }
+      .north-mark { width: 58px; height: 58px; }
+      .workspace { grid-template-columns: 1fr; }
+      .rail { border-right: 0; border-bottom: 1px solid var(--line); padding: 0 0 18px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+      .rail-label, .data-note { grid-column: 1 / -1; }
+      .stat { padding: 10px 0; }
+      .method-grid { grid-template-columns: 1fr; }
+      .method { min-height: auto; }
+    }
+
+    @media (max-width: 520px) {
+      .masthead { grid-template-columns: 1fr; }
+      .north-mark { display: none; }
+      .rail { grid-template-columns: repeat(2, 1fr); }
+      .toolbar { align-items: flex-start; flex-direction: column; }
+      .stage-meta { grid-template-columns: 1fr; }
+      .view-label { font-size: 8px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <aside style="padding:16px;border:1px solid var(--acid);line-height:1.8" aria-label="版本说明">
+      当前版本为高分影像重识别 v5：<a href="index.html?qa=1&amp;view=roofs&amp;v=20260905v5">打开实时三维</a> · <a href="recognition/index.html">查看原始影像核查</a> · <a href="output/web_roofs_v5.jpg">新版网页实拍</a>。以下为历史图集，包含生成式效果图，不代表当前模型或实地测量结果。
+    </aside>
+    <header class="masthead">
+      <div>
+        <div class="eyebrow">Remote sensing × procedural modeling / 2026</div>
+        <h1>北师大三维校园图集<span>BNU 3D Campus Atlas · GF-2 / Sentinel-2 / Blender</span></h1>
+      </div>
+      <div class="north-mark" aria-label="指北针">N</div>
+    </header>
+
+    <section class="workspace">
+      <aside class="rail" aria-label="场景统计">
+        <p class="rail-label mono">Scene inventory</p>
+        <div class="stat"><strong>231</strong><span>建筑体块</span></div>
+        <div class="stat"><strong>520</strong><span>NDVI 树木候选</span></div>
+        <div class="stat"><strong>120</strong><span>校园步道</span></div>
+        <div class="stat"><strong>12</strong><span>绿地 / 水体面</span></div>
+        <div class="data-note">
+          EPSG:32650 局部米制坐标<br />
+          GF-2 屋顶投影纹理<br />
+          Sentinel-2 区域植被先验<br />
+          Blender 4.5 LTS / Eevee
+        </div>
+      </aside>
+
+      <div class="main">
+        <div class="toolbar">
+          <div class="tabs" role="tablist" aria-label="视图切换">
+            <button class="tab" role="tab" aria-selected="true" data-view="compare">拖动对比</button>
+            <button class="tab" role="tab" aria-selected="false" data-view="enhanced">细节增强</button>
+            <button class="tab" role="tab" aria-selected="false" data-view="top">俯视核对</button>
+          </div>
+          <button class="utility" id="fullscreenButton" type="button">全屏查看 ↗</button>
+        </div>
+
+        <div class="frame">
+          <div class="compare-stage" id="stage">
+            <img class="enhanced" src="output/bnu_campus_detail_enhanced.png" alt="细节增强后的北师大校园三维斜视图" draggable="false" />
+            <img class="original" src="output/bnu_campus_hero.png" alt="Blender 原生北师大校园三维斜视图" draggable="false" />
+            <img class="single-image" id="topImage" src="output/bnu_campus_top.png" alt="北师大校园三维俯视核对图" draggable="false" />
+            <div class="divider" id="divider"></div>
+            <div class="handle" id="handle" aria-hidden="true">↔</div>
+            <span class="view-label label-left" id="leftLabel">Blender native</span>
+            <span class="view-label label-right" id="rightLabel">Image 2 refined</span>
+            <input class="compare-input" id="compareInput" type="range" min="0" max="100" value="48" aria-label="拖动比较原始与增强图" />
+          </div>
+          <div class="stage-meta">
+            <span><strong id="viewTitle">图层差异检查</strong> · 拖动分割线，或使用键盘方向键</span>
+            <span class="mono">GF2_TEXTURE / OSM_LOD1.5 / IMG2_REFERENCE</span>
+          </div>
+        </div>
+
+        <section class="method-grid" aria-label="方法说明">
+          <article class="method">
+            <span class="index mono">01 / Geometry</span>
+            <h2>形状来自地理数据</h2>
+            <p>建筑轮廓、步道和场地以米制坐标进入 Blender；新版模型在轮廓不变的前提下加入可旋转查看的规则化窗格、女儿墙和屋顶设备。</p>
+          </article>
+          <article class="method">
+            <span class="index mono">02 / Texture</span>
+            <h2>高分二号投影到屋顶</h2>
+            <p>屋顶继续采样高分二号真彩纹理，保留颜色、设备痕迹和地理配准，不再使用统一灰色。</p>
+          </article>
+          <article class="method">
+            <span class="index mono">03 / Detail</span>
+            <h2>以实时三维近景为准</h2>
+            <p>上方增强图是早期二维效果参考，不代表当前可漫游细节。2026-09-05 版已把无窗 Image2 墙材与实体窗框写入模型；请看下方实际网页截图或进入三维观察。</p>
+          </article>
+        </section>
+
+        <nav class="downloads" aria-label="成果文件">
+          <span class="title mono">Open project artifacts</span>
+          <a class="file-link" href="output/bnu_campus_gf2_sentinel2.blend">Blender 场景</a>
+          <a class="file-link" href="index.html?view=facade&amp;v=20260905v4c">新版墙面特写（可旋转）</a>
+          <a class="file-link" href="output/web_facade_v4.jpg">新版网页特写截图</a>
+          <a class="file-link" href="output/web_texture_v4.jpg">新版网页近景截图</a>
+          <a class="file-link" href="assets/image2_brick_surface_v4.png">Image2 红砖材质</a>
+          <a class="file-link" href="assets/image2_stone_surface_v4.png">Image2 石材</a>
+          <a class="file-link" href="output/bnu_campus_detail_enhanced.png">增强图原文件</a>
+          <a class="file-link" href="README.md">方法说明</a>
+          <a class="file-link" href="修复复盘_2026-09-05.md">本轮修改复盘与提示词</a>
+        </nav>
+      </div>
+    </section>
+
+    <footer class="footer mono">
+      <span>Local offline viewer · no network dependency</span>
+      <a class="deerflow" href="https://deerflow.tech" target="_blank" rel="noreferrer">Created By Deerflow</a>
+    </footer>
+  </main>
+
+  <dialog id="lightbox">
+    <button class="close" id="closeLightbox" type="button" aria-label="关闭全屏">×</button>
+    <img class="lightbox-image" id="lightboxImage" alt="全屏校园效果图" />
+  </dialog>
+
+  <script>
+    const root = document.documentElement;
+    const input = document.querySelector('#compareInput');
+    const tabs = [...document.querySelectorAll('.tab')];
+    const topImage = document.querySelector('#topImage');
+    const divider = document.querySelector('#divider');
+    const handle = document.querySelector('#handle');
+    const labels = [document.querySelector('#leftLabel'), document.querySelector('#rightLabel')];
+    const viewTitle = document.querySelector('#viewTitle');
+    const stage = document.querySelector('#stage');
+    const lightbox = document.querySelector('#lightbox');
+    const lightboxImage = document.querySelector('#lightboxImage');
+    let activeView = 'compare';
+
+    function setSplit(value) {
+      const safe = Math.max(0, Math.min(100, Number(value)));
+      root.style.setProperty('--split', `${safe}%`);
+    }
+
+    input.addEventListener('input', event => setSplit(event.target.value));
+
+    function currentImage() {
+      if (activeView === 'top') return 'output/bnu_campus_top.png';
+      if (activeView === 'enhanced') return 'output/bnu_campus_detail_enhanced.png';
+      return Number(input.value) < 50
+        ? 'output/bnu_campus_detail_enhanced.png'
+        : 'output/bnu_campus_hero.png';
+    }
+
+    function setView(view) {
+      activeView = view;
+      tabs.forEach(tab => tab.setAttribute('aria-selected', String(tab.dataset.view === view)));
+      const compare = view === 'compare';
+      input.classList.toggle('hidden-control', !compare);
+      divider.classList.toggle('hidden-control', !compare);
+      handle.classList.toggle('hidden-control', !compare);
+      labels.forEach(label => label.classList.toggle('hidden-control', !compare));
+      topImage.classList.toggle('visible', view === 'top');
+
+      if (view === 'enhanced') {
+        setSplit(0);
+        viewTitle.textContent = 'Image 2 细节增强展示';
+        stage.style.cursor = 'zoom-in';
+      } else if (view === 'top') {
+        viewTitle.textContent = '俯视地理纹理核对';
+        stage.style.cursor = 'zoom-in';
+      } else {
+        setSplit(input.value);
+        viewTitle.textContent = '图层差异检查';
+        stage.style.cursor = 'ew-resize';
+      }
+    }
+
+    tabs.forEach(tab => tab.addEventListener('click', () => setView(tab.dataset.view)));
+
+    function openLightbox() {
+      lightboxImage.src = currentImage();
+      lightboxImage.classList.remove('zoomed');
+      lightbox.showModal();
+    }
+
+    document.querySelector('#fullscreenButton').addEventListener('click', openLightbox);
+    stage.addEventListener('dblclick', openLightbox);
+    document.querySelector('#closeLightbox').addEventListener('click', () => lightbox.close());
+    lightbox.addEventListener('click', event => { if (event.target === lightbox) lightbox.close(); });
+    lightboxImage.addEventListener('click', () => lightboxImage.classList.toggle('zoomed'));
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && lightbox.open) lightbox.close();
+    });
+
+    setSplit(input.value);
+  </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>北师大 · 单图三维试作 / v6</title>
+<style>
+:root{--paper:#f1eee6;--ink:#132a3a;--muted:#667779;--line:#c9d1cf;--blue:#075082;--gold:#a88043}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Microsoft YaHei UI",sans-serif}button,a,select{font:inherit}button,a{touch-action:manipulation}button{cursor:pointer}a{color:inherit}
+header{height:86px;padding:17px 26px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);gap:20px}.eyebrow{font:10px Consolas,monospace;letter-spacing:.19em;color:var(--blue)}h1{font:500 25px "STSong","SimSun",serif;margin:7px 0 0}.tag{font-size:11px;color:var(--muted);max-width:300px;line-height:1.6}.tools{display:flex;align-items:center;gap:6px;padding:11px 26px;flex-wrap:wrap;border-bottom:1px solid var(--line);min-height:56px}button,.tools a{border:1px solid var(--line);background:transparent;padding:8px 12px;text-decoration:none;font-size:11px;white-space:nowrap}button[aria-pressed=true]{background:var(--blue);color:white;border-color:var(--blue)}.divider{width:1px;height:24px;background:var(--line);margin:0 6px}.tools a:last-child{margin-left:auto}
+.workspace{height:calc(100vh - 195px);min-height:370px;display:grid;grid-template-columns:1fr;position:relative;background:#d0d7d8}.model{position:relative;min-width:0;min-height:0}iframe{height:100%;width:100%;border:0;display:block}.source{display:none;position:relative;overflow:auto;background:#e1e5e5;min-width:0;min-height:0}.source img{display:block;width:100%;height:auto}.workspace[data-mode=source] .model{display:none}.workspace[data-mode=source] .source{display:block}.workspace[data-mode=compare]{grid-template-columns:1fr 1fr}.workspace[data-mode=compare] .source{display:block;border-right:2px solid #fff}.caption{position:absolute;top:12px;left:14px;z-index:2;pointer-events:none;padding:8px 10px;background:#f5f2e8e8;font-size:11px;border-left:3px solid var(--gold);max-width:80%;line-height:1.5}.source .caption{position:sticky;top:8px;display:inline-block;margin:0 12px 8px}.source img.zoomed{width:1680px;max-width:none}.caption b{font-weight:500;color:var(--blue)}
+footer{height:53px;padding:11px 26px;display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:10px;color:var(--muted);line-height:1.5}footer a{white-space:nowrap}.help{position:fixed;inset:10%;z-index:10;padding:25px;background:var(--paper);border:1px solid var(--line);overflow:auto;box-shadow:0 20px 70px #0005}.help[hidden]{display:none}.help button{float:right}.help p{font-size:13px;line-height:1.9}.help h2{font-weight:500}.help table{width:100%;border-collapse:collapse;font-size:12px}.help td,.help th{padding:12px;text-align:left;border-bottom:1px solid var(--line)}
+@media(max-width:900px){header{height:90px;padding:13px 16px}.tag{max-width:230px;font-size:10px}h1{font-size:21px}.tools{padding:8px 12px}.workspace{height:calc(100vh - 230px)}.workspace[data-mode=compare]{grid-template-columns:1fr;grid-template-rows:42% 58%}.workspace[data-mode=compare] .source{border-right:0;border-bottom:2px solid white}footer{padding:8px 12px}.tools a:last-child{margin-left:0}}@media(max-width:540px){.tag{display:none}.tools{gap:4px}button,.tools a{padding:7px 8px}.divider{display:none}.workspace{height:calc(100vh - 253px)}footer{height:auto}.help{inset:3%}}
+.source img:not(.zoomed){height:calc(100% - 56px);object-fit:contain}
+</style></head>
+<body>
+<header><div><div class="eyebrow">BNU / SINGLE-IMAGE RECONSTRUCTION STUDY</div><h1>从一张示意图，到可走近的校园</h1></div><div class="tag">v6 · 图示参照试作<br>47 栋调整 / 其余沿用 v5 / 不代表实测现状</div></header>
+<nav class="tools" aria-label="对照与视角">
+<a href="../white/index.html">白模版本 →</a>
+<button data-mode="model" aria-pressed="true">三维试作</button><button data-mode="compare" aria-pressed="false">原图对照</button><button data-mode="source" aria-pressed="false">只看原图</button><span class="divider"></span>
+<button data-view="reference">校园总览</button><button data-view="main">主楼门廊</button><button data-view="gym">体育馆</button><button data-view="rowstudy">条形楼群</button><button data-view="towers">塔楼体量</button>
+<button id="scope">能还原什么？</button><a id="standalone" href="../index.html?qa=1&amp;edition=reference&amp;view=reference&amp;v=20260907" target="_blank">独立漫游 ↗</a>
+</nav>
+<main class="workspace" data-mode="model">
+<section class="source" aria-label="用户提供的原始示意图"><div class="caption">用户原图 · 年代未知 · <button id="zoom">原尺寸放大</button></div><img src="../assets/reference_campus_diagram_20260907.png" alt="用户提供的北京师范大学三维示意图"></section>
+<section class="model" aria-label="可交互的三维试作"><div class="caption"><b id="viewLabel">校园总览</b> · 手工图示解读，背面与尺寸为推断<br>左键旋转 · 滚轮缩放 · 右键平移</div><iframe id="model" title="北师大三维观察者 v6" allow="fullscreen; pointer-lock" src="../index.html?qa=1&amp;edition=reference&amp;view=reference&amp;embed=1&amp;v=20260907"></iframe></section>
+</main>
+<footer><span>47 栋为分组视觉试作，不是 47 栋已核实。<a href="../index.html?qa=1&amp;view=reference&amp;v=20260907" target="_blank">打开 v5 对照</a> · <a href="../output/reference_report_v6.json" target="_blank">试作记录</a></span><a href="https://deerflow.tech" target="_blank" rel="noopener">Created By Deerflow</a></footer>
+<section class="help" id="help" hidden><button id="closeHelp">关闭 ×</button><h2>能做外观参照，不能从单图恢复全部实景</h2><p>本次没有把这张透视图直接贴到地面，也没有声称完成摄影测量。以现有 OSM 轮廓定位，人工解读图中可见的配色、体量与结构，用参数化几何制作可旋转样板。未解读的 184 栋保持 v5。</p><table><tr><th>可以尝试</th><th>目前不能确认</th></tr><tr><td>主楼大门廊与挑檐、体育馆屋盖</td><td>实际尺寸、背面、内部结构</td></tr><tr><td>深色横窗带、红砖、蓝白立面样式</td><td>真实材料、精确窗数、逐窗位置</td></tr><tr><td>低层—多层—塔楼高低关系</td><td>实测楼高、图示年代与当前一致性</td></tr></table><p>分组区域和逐栋假设写在 <a href="../assets/campus_assets_v6.json" target="_blank">v6 属性数据</a> 中。原图与 2025 年卫星屋顶颜色存在差异，两种版本分别保留。本页不提供没有验证依据的“还原率”。</p></section>
+<script>
+const workspace=document.querySelector('.workspace'), frame=document.querySelector('#model');
+document.querySelectorAll('[data-mode]').forEach(button=>{if(button.tagName!=='BUTTON')return;button.onclick=()=>{workspace.dataset.mode=button.dataset.mode;document.querySelectorAll('button[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));};});
+document.querySelectorAll('button[data-view]').forEach(button=>button.onclick=()=>{frame.contentWindow.postMessage({type:'reference-view',view:button.dataset.view},location.origin);document.querySelector('#viewLabel').textContent=button.textContent;document.querySelector('#standalone').href='../index.html?qa=1&edition=reference&view='+button.dataset.view+'&v=20260907';if(workspace.dataset.mode==='source')document.querySelector('button[data-mode=model]').click();});
+document.querySelector('#zoom').onclick=event=>{const zoomed=document.querySelector('.source img').classList.toggle('zoomed');event.target.textContent=zoomed?'适应窗口':'原尺寸放大';};
+document.querySelector('#scope').onclick=()=>document.querySelector('#help').hidden=false;document.querySelector('#closeHelp').onclick=()=>document.querySelector('#help').hidden=true;
+document.addEventListener('keydown',event=>{if(event.key==='Escape')document.querySelector('#help').hidden=true;});
+</script></body></html>

@@ -1,0 +1,16 @@
+{
+  "model": "deepseek-flash",
+  "base_url": "https://api.deepseek.com",
+  "max_model_calls": 4,
+  "max_tool_calls": 6,
+  "request_timeout_seconds": 90,
+  "max_output_tokens": 1600,
+  "temperature": 0.2,
+  "non_meal_item_pattern": "美式|拿铁|咖啡|奶茶|圣代|冰淇淋|冰激凌|柠檬水|果茶|冰茶|雪顶|珍珠奶|酸梅汤|豆浆|可乐|果汁|饮料|奶昔|椰汁|矿泉水|纯净水|红茶|绿茶|乌龙茶",
+  "drink_shop_pattern": "蜜雪冰城|茶百道|喜茶|霸王茶姬|沪上阿姨|瑞幸|星巴克|库迪",
+  "weights": {"taste": 0.30, "budget": 0.25, "queue": 0.20, "distance": 0.15, "preference": 0.10},
+  "meal_minutes": 15,
+  "buffer_minutes": 5,
+  "walk_metres_per_minute": 70,
+  "detour_factor": 1.3
+}

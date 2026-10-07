@@ -1,0 +1,95 @@
+{
+  "version": "white-v6",
+  "coordinate_frame": "white_v4 / local EPSG:32650",
+  "changes": [
+    {
+      "osm_id": 499437078,
+      "old_height": 13.0,
+      "old_floors": 4,
+      "height": 8,
+      "floors": 2
+    },
+    {
+      "osm_id": 499437130,
+      "old_height": 13.0,
+      "old_floors": 4,
+      "height": 8,
+      "floors": 2
+    },
+    {
+      "osm_id": 681441380,
+      "old_height": 9.0,
+      "old_floors": 2,
+      "height": 8,
+      "floors": 2
+    },
+    {
+      "osm_id": 681441378,
+      "old_height": 13.0,
+      "old_floors": 4,
+      "height": 8,
+      "floors": 2
+    },
+    {
+      "osm_id": 681441379,
+      "old_height": 13.0,
+      "old_floors": 4,
+      "height": 8,
+      "floors": 2
+    }
+  ],
+  "added_buildings": [
+    {
+      "osm_id": 900000000003,
+      "source_id": "local-xinlequn-north-v6",
+      "name": "新乐群北侧低楼（名称待核）",
+      "kind": "yes",
+      "height": 8,
+      "floors": null,
+      "coords": [
+        [
+          -337,
+          -369
+        ],
+        [
+          -320,
+          -369
+        ],
+        [
+          -320,
+          -336
+        ],
+        [
+          -337,
+          -336
+        ]
+      ],
+      "geometry_status": "百度多角度确认独立体块存在；GF2和相邻道路约束下近似补建，非测绘轮廓",
+      "height_status": "8 m仅为低楼占位表现；该独立楼的真实层数未知，不套用片区两层",
+      "identity_status": "不推断用途、产权或商户归属"
+    }
+  ],
+  "protected_meshes": 308,
+  "protected_geometry_check": true,
+  "detail_audit": [
+    {
+      "mesh": "Facade_Window_Panels",
+      "removed_target_faces": 652,
+      "outside_faces_preserved": true
+    },
+    {
+      "mesh": "Roof_Parapets",
+      "removed_target_faces": 28,
+      "outside_faces_preserved": true
+    }
+  ],
+  "heights_measured": false,
+  "polygons": 242251,
+  "trees": 900,
+  "windows": null,
+  "limitations": [
+    "Low-rise user report is area-level, not a measured per-building survey",
+    "New north block identity and floor count unknown",
+    "Xinlequn northern footprint discrepancy remains unmeasured"
+  ]
+}

@@ -268,7 +268,7 @@
     const params = new URLSearchParams(location.search);
     const whiteEdition = params.get('edition') === 'white';
     const referenceEdition = whiteEdition || params.get('edition') === 'reference';
-    const editionSuffix = whiteEdition ? 'white_v4' : referenceEdition ? 'v6' : 'v5';
+    const editionSuffix = whiteEdition ? 'white_v6' : referenceEdition ? 'v6' : 'v5';
     if (params.has('embed')) document.body.classList.add('embedded');
     if (referenceEdition) {
       document.querySelector('.brand h1').textContent = '校园图示参照试作';
@@ -319,7 +319,7 @@
       document.querySelector('.brand h1').textContent='北师大校园白模';
       document.querySelector('.brand .kicker').textContent='WHITE CLAY / 无贴图 · 体量检查';
       document.querySelector('#relightToggle').closest('.layer-row').hidden=true;
-      document.querySelector('.panel-section > .data-detail').textContent='白模 v3：学1—学4高层组团、一层报亭、道路与运动场；楼高仍含估计。';
+      document.querySelector('.panel-section > .data-detail').textContent='白模 v6：学五/学子超市片区低楼改为两层表现；新乐群北侧低楼近似补建，名称与层数待核。米制高度非实测，南苑归属待核。';
       document.querySelector('.minimap').hidden=true;
     }
     const orbit = new OrbitControls(camera, canvas);
@@ -329,17 +329,29 @@
     const clock = new THREE.Clock(); const raycaster = new THREE.Raycaster(); const mouse = new THREE.Vector2();
     let campus = null, trees = null, mode = 'orbit', campusData = null, selectionHelper = null;
     const buildingById = new Map();
+    const lifeHighlights = new THREE.Group(); scene.add(lifeHighlights);
+    function highlightLifeRecommendations(records) {
+      for (const helper of [...lifeHighlights.children]) { lifeHighlights.remove(helper); helper.geometry.dispose(); helper.material.dispose(); }
+      if (!campus) return;
+      const seen = new Set();
+      for (const row of records) {
+        if (row.building_id == null || seen.has(row.building_id)) continue;
+        seen.add(row.building_id);
+        const object = campus.getObjectByName(`Building_${row.building_id}`);
+        if (object) { const helper = new THREE.BoxHelper(object, 0xc49a35); helper.material.depthTest=false; helper.renderOrder=20; lifeHighlights.add(helper); }
+      }
+    }
     const layerGroups = { buildings: [], roads: [], surfaces: [], terrain: [] };
     const poiGroup = new THREE.Group(); scene.add(poiGroup);
     let informationRecords=[];
     const tenantList=document.createElement('div');inspector.append(tenantList);
-    const directory=document.createElement('details');directory.className='poi-directory';directory.open=params.has('embed');directory.hidden=!whiteEdition;
+    const directory=document.createElement('details');directory.className='poi-directory';directory.open=params.has('embed')&&!params.has('life');directory.hidden=!whiteEdition;
     const directoryTitle=document.createElement('summary');directoryTitle.textContent='校园地点 / 楼内场所';
     const poiSearch=document.createElement('input');poiSearch.placeholder='搜索食堂、公寓、店铺…';poiSearch.setAttribute('aria-label','搜索校园地点');
     const poiStatus=document.createElement('small');poiStatus.textContent='正在载入地点…';
     const poiResults=document.createElement('div');poiResults.className='poi-results';directory.append(directoryTitle,poiSearch,poiStatus,poiResults);document.body.append(directory);
     const placesFor=id=>informationRecords.filter(r=>r.building_id!=null&&String(r.building_id)===String(id)&&r.status!=='archived');
-    function buildingLabel(item){const names=placesFor(item.osm_id).filter(r=>r.category==='building');return item.name||(names.length===1?`${names[0].name}（POI候选名）`:`未命名建筑 ${item.osm_id}`);}
+    function buildingLabel(item){const names=placesFor(item.osm_id).filter(r=>r.category==='building');return (whiteEdition&&item.audit_label)||item.name||(names.length===1?`${names[0].name}（POI候选名）`:`未命名建筑 ${item.osm_id}`);}
     function showPlace(r,focus=false){
       tenantList.replaceChildren();document.querySelector('#objectName').textContent=r.name;
       document.querySelector('#objectDetail').textContent=[r.floor||'楼层未知',r.unit||'',r.building_id?`关联建筑 ${r.building_id}（关联可修正）`:'独立地点 / 尚无可靠建筑关联',r.status==='verified'?'用户已核实':'待核实',r.hours?`营业：${r.hours}`:'营业时间未知',r.notes||'',`来源：${r.source||'未提供'}`].filter(Boolean).join(' · ');
@@ -423,14 +435,14 @@
       const selectedKind = kindFilter.value;
       const matches = campusData.buildings
         .filter(item => selectedKind === 'all' || buildingCategory(item.kind) === selectedKind)
-        .filter(item => !query || `${buildingLabel(item)} ${placesFor(item.osm_id).map(r=>r.name).join(' ')} ${item.osm_id}`.toLowerCase().includes(query))
-        .filter(item => item.name || placesFor(item.osm_id).length || query)
+        .filter(item => !query || `${buildingLabel(item)} ${item.name||''} ${placesFor(item.osm_id).map(r=>r.name).join(' ')} ${item.osm_id}`.toLowerCase().includes(query))
+        .filter(item => item.name || (whiteEdition&&item.audit_label) || placesFor(item.osm_id).length || query)
         .slice(0, 12);
       featureList.replaceChildren();
       matches.forEach(item => {
         const button = document.createElement('button'); button.type = 'button'; button.className = 'feature-item';
         const label = document.createElement('span'); label.textContent = buildingLabel(item);
-        const floors = document.createElement('small'); floors.textContent = `${item.floors || '—'}F`;
+        const floors = document.createElement('small'); floors.textContent = `模型 ${item.floors || '—'}F`;
         button.append(label, floors); button.addEventListener('click', () => showBuilding(item, true)); featureList.append(button);
       });
       if (!matches.length) {
@@ -450,6 +462,7 @@
     }
 
     function showBuilding(item, focus) {
+      if (params.has('embed')) parent.postMessage({type:'campus-building-selected',building_id:item.osm_id},location.origin);
       document.querySelector('#objectName').textContent = buildingLabel(item);
       tenantList.replaceChildren();const tenants=placesFor(item.osm_id);const heading=document.createElement('p');heading.textContent=`关联地点 / 楼内场所：${tenants.length} 项（可一楼多店；非完整名录）`;tenantList.append(heading);
       for(const r of tenants){const button=document.createElement('button');button.className='place-row';button.textContent=`${r.name} · ${r.floor||'楼层未知'} ${r.unit||''} →`;button.onclick=()=>showPlace(r);tenantList.append(button);}
@@ -462,7 +475,7 @@
         const r = item.reference_observation;
         document.querySelector('#objectDetail').textContent = `OSM ${item.osm_id} · 图示参照试作：${r.note}。模型高度 ${item.height} m、表现层数 ${item.floors}，不是实测。原 v5 高度 ${r.original_height} m。背面和未见细节按样式推断，屋顶采用图示概括色，不再作为 GF2 观测显示。`;
       }
-      if (whiteEdition) document.querySelector('#objectDetail').textContent = `${item.source_id?'本地补建 '+item.source_id:'OSM '+item.osm_id} · 白模 v4 · 表现高度 ${item.height} m。${item.correction_note || item.reference_observation?.note || '体量沿用既有规则模型'}；不是实测，背面与细节仍可能不准确。`;
+      if (whiteEdition) document.querySelector('#objectDetail').textContent = `${item.source_id?'本地补建 '+item.source_id:'OSM '+item.osm_id} · 白模 v6 · ${item.audit_label||item.name||'名称待核'} · ${item.floors??'未知'}层 · 表现高度 ${item.height} m。${item.correction_note || item.reference_observation?.note || '体量沿用既有规则模型'}；不是实测，背面与细节仍可能不准确。`;
       if(whiteEdition&&campusContext){const c=campusContext.buildings[String(item.osm_id)]?.classification;document.querySelector('#objectDetail').textContent+=' '+({inside:'主校区范围内（白色）',outside:'主校区范围外（蓝灰色，非产权判断）',uncertain:'边界附近（浅棕色，归属待核）'}[c]||'范围未分类');}
       inspector.hidden = false;
       if (focus) focusBuilding(item);
@@ -520,7 +533,7 @@
           }
           object.frustumCulled = true;
           object.castShadow = object.name !== 'GF2_Satellite_Terrain' && !object.name.startsWith('Facade_Window'); object.receiveShadow = true;
-          if (object.name.startsWith('Surface_Court_') || object.name.startsWith('Surface_Corrected_')) object.castShadow=false;
+          if (object.name.startsWith('Surface_Court_') || object.name.startsWith('Surface_Corrected_') || object.name.startsWith('Surface_V5_Restored_')) object.castShadow=false;
           const materials = Array.isArray(object.material) ? object.material : [object.material];
           materials.filter(Boolean).forEach(material => {
             material.side = object.name === 'Roof_Parapets' ? THREE.DoubleSide : THREE.FrontSide;
@@ -543,7 +556,7 @@
       setPreset(new URLSearchParams(location.search).get('view') || 'hero', false); statusText.textContent = '高分影像重识别 · v5'; loadingPercent.textContent = '100%'; progressBar.style.width = '100%';
       if (referenceEdition) statusText.textContent = '图示参照试作 · 47 栋 / 非实测';
       if (whiteEdition) statusText.textContent = '校园白模 · 绿色树木 / 范围分色 / 校门';
-      if(whiteEdition){if(campusContext)addGateMarkers(campusContext.gates);fetch('/api/places').then(r=>{if(!r.ok)throw Error('static viewer');return r.json();}).then(d=>{if(Array.isArray(d.records)){updateInformationPoints(d.records);addGateMarkers(d.records.filter(r=>r.category==='gate'));}}).catch(()=>{poiStatus.textContent='地点服务不可用，请使用 8786 端口。';});}
+      if(whiteEdition){if(campusContext)addGateMarkers(campusContext.gates);fetch(params.has('life')?'/api/life/pois':'/api/places').then(r=>{if(!r.ok)throw Error('static viewer');return r.json();}).then(d=>{if(Array.isArray(d.records)){const records=params.has('life')?d.records.filter(r=>r.location&&Number.isFinite(r.location.x)&&Number.isFinite(r.location.y)&&Math.abs(r.location.x)<=452&&Math.abs(r.location.y)<=601).map(r=>({...r,x:r.location.x,y:r.location.y,hours:r.opening_hours?r.opening_hours.map(h=>h.join('–')).join('；'):'',notes:r.address||r.legacy_notes||''})):d.records;updateInformationPoints(records);addGateMarkers(records.filter(r=>r.category==='gate'));}}).catch(()=>{poiStatus.textContent='地点服务不可用，请通过新版 campus_server.py 启动。';});}
       if(params.has('embed'))parent.postMessage({type:'campus-ready'},location.origin);
       startButton.disabled = false; startButton.textContent = '开始自由观察';
       if (new URLSearchParams(location.search).has('qa')) {
@@ -575,9 +588,15 @@
         rowstudy: {p:[420,165,-20],t:[145,16,-245]},
         towers: {p:[-130,180,165],t:[-399,35,-157]},
         courts: {p:[-90,150,350],t:[-220,3,195]},
+        eastSports: {p:[60,180,335],t:[-83,3,173]},
+        eastSportsTop: {p:[-83,260,173.1],t:[-83,0,173]},
+        southAudit: {p:[-20,250,820],t:[-180,10,570]},
         westfix: {p:[-440,100,410],t:[-288,10,279]},
         dorms: {p:[-110,155,170],t:[-369,22,117]},
         southwest: {p:[-110,190,570],t:[-278,10,371]},
+        snack: {p:[-140,160,535],t:[-300,8,373]},
+        snackReverse: {p:[-445,140,200],t:[-300,8,373]},
+        snackTop: {p:[-300,290,373.1],t:[-300,0,373]},
         lanhui: {p:[-500,120,530],t:[-384,10,367]},
         international: {p:[460,155,315],t:[308,12,105]},
         lanhuiTop: {p:[-384,240,367.1],t:[-384,0,367]},
@@ -615,6 +634,8 @@
       if (event.data?.type === 'reference-view' && ['reference','main','gym','rowstudy','towers','courts','westfix','dorms','southwest','kiosk','lanhui','international','lanhuiTop','internationalTop'].includes(event.data.view)){inspector.hidden=true;setOrbitMode();setPreset(event.data.view);}
       if(event.data?.type==='campus-annotations'&&typeof event.data.visible==='boolean'){gateGroup.visible=event.data.visible;poiGroup.visible=event.data.visible;directory.hidden=!event.data.visible||!whiteEdition;inspector.hidden=true;}
       if(event.data?.type==='campus-pick-enable')pickInformationPoint=true;
+      if(event.data?.type==='life-recommendations'&&Array.isArray(event.data.records)) highlightLifeRecommendations(event.data.records.slice(0,3));
+      if(event.data?.type==='life-focus'&&buildingById.has(String(event.data.building_id))) showBuilding(buildingById.get(String(event.data.building_id)),true);
       if(event.data?.type==='campus-pois'&&Array.isArray(event.data.records)){updateInformationPoints(event.data.records);const gates=event.data.records.filter(r=>String(r.id).startsWith('campus-gate-')||r.category==='gate');if(gates.length)addGateMarkers(gates);}
       if(event.data?.type==='campus-focus'&&Number.isFinite(event.data.x)&&Number.isFinite(event.data.y)&&Math.abs(event.data.x)<=452&&Math.abs(event.data.y)<=601){setOrbitMode();orbit.target.set(event.data.x,6,-event.data.y);camera.position.set(event.data.x+75,95,-event.data.y+110);orbit.update();}
     });

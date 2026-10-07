@@ -1,0 +1,15 @@
+'use strict';
+const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict');
+const source=fs.readFileSync('contribute/app.js','utf8');
+const begin=source.indexOf('function onlyChanged('),end=source.indexOf('\nasync function api(',begin);
+assert(begin>=0&&end>begin);
+const context=vm.createContext({});vm.runInContext(source.slice(begin,end),context);
+const changed=(p,b)=>JSON.parse(JSON.stringify(context.onlyChanged(p,b)));
+assert.deepEqual(changed({address:'新入口'},{name:'已有店',address:'旧入口',opening_hours:[['09:00','20:00']]}),{address:'新入口'});
+assert.deepEqual(changed({price:0,available:false},{price:10,available:true}),{price:0,available:false});
+assert.deepEqual(changed({name:'已有店',opening_hours:[['09:00','20:00']]},{name:'已有店',opening_hours:[['09:00','20:00']]}),{});
+assert.deepEqual(changed({building_floors:2,floor_evidence:'observed'},{building_floors:4,floor_evidence:'observed'}),{building_floors:2,floor_evidence:'observed'});
+assert.deepEqual(changed({name:'新增'},null),{name:'新增'});
+assert.deepEqual(changed({},{name:'已有店',price:15}),{});
+assert.deepEqual(changed({building_floors:2,floor_evidence:'observed'},{building_floors:2,floor_evidence:'estimated'}),{floor_evidence:'observed'});
+console.log('PASS 7 difference-entry cases');

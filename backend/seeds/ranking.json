@@ -1,0 +1,13 @@
+{
+  "weights": {
+    "taste": 0.3,
+    "budget": 0.25,
+    "queue": 0.2,
+    "distance": 0.15,
+    "preference": 0.1
+  },
+  "meal_minutes": 15,
+  "buffer_minutes": 5,
+  "walk_metres_per_minute": 70,
+  "detour_factor": 1.3
+}

@@ -1,0 +1,24 @@
+{
+  "audit_date": "2026-09-24",
+  "coordinate_frame": "white_v4 / local EPSG:32650",
+  "sources": {
+    "user": "用户现场反馈：学子超市、学五食堂片区建筑只有两层；新乐群附近缺少一栋建筑。",
+    "browser": "2026-09-24 百度地图实际查看：正北斜视、顺时针侧视、反向斜视及2D平面；新乐群北侧低楼与主体分离。学子超市搜索用于片区定位，不把POI当作建筑边界。",
+    "imagery": "GF2 2025-06-24 重投影影像，辅助近似落位；屋顶位移和配准误差未消除。",
+    "official": "https://zwb.bnu.edu.cn/fwzn/jdfw/index.htm"
+  },
+  "height_policy": "片区两层来自用户反馈；8 m = 2 × 4 m仅为表现估计，不是实测。学五的阁楼不当作完整第三层。",
+  "changes": [
+    {"osm_id": 499437078, "floors": 2, "height": 8, "audit_label": "学五食堂片区 · 西北体块", "identity_status": "片区匹配；保留旧名西南餐厅，独立楼栋对应待现场核对"},
+    {"osm_id": 499437130, "floors": 2, "height": 8, "audit_label": "学五食堂片区 · 西南体块", "identity_status": "片区匹配；保留旧名西北餐厅，不把餐厅POI当独立楼栋"},
+    {"osm_id": 681441380, "floors": 2, "height": 8, "audit_label": "学五食堂片区 · 连接体块", "identity_status": "原模型已有两层；并非新发现第三栋商铺"},
+    {"osm_id": 681441378, "floors": 2, "height": 8, "audit_label": "学子超市片区 · 东北体块", "identity_status": "片区匹配；具体商户与体块对应待核，不自动绑定商户"},
+    {"osm_id": 681441379, "floors": 2, "height": 8, "audit_label": "学子超市片区 · 东南体块", "identity_status": "片区低层建筑；与CampusMart等商户关系待现场核对"}
+  ],
+  "retained": [
+    {"osm_id": 499434918, "audit_label": "新乐群餐厅", "floors": 4, "height": 13, "floor_status": "校方列出一至四层食堂，至少存在四个使用层；非建筑竣工资料", "height_status": "保留13 m表现高度，未实测；不能由百度相对体量读出精确米数", "geometry_status": "保留原轮廓；北侧主体范围与影像存在差异，未作无控制点的强行扩边"}
+  ],
+  "added": [
+    {"osm_id": 900000000003, "source_id": "local-xinlequn-north-v6", "name": "新乐群北侧低楼（名称待核）", "kind": "yes", "height": 8, "floors": null, "coords": [[-337,-369],[-320,-369],[-320,-336],[-337,-336]], "geometry_status": "百度多角度确认独立体块存在；GF2和相邻道路约束下近似补建，非测绘轮廓", "height_status": "8 m仅为低楼占位表现；该独立楼的真实层数未知，不套用片区两层", "identity_status": "不推断用途、产权或商户归属"}
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "version": "1.11.0",
+  "source": "built-in ImageGen, 2026-10-04",
+  "reference": "docs/design-1.11-target.png",
+  "usage": "Decorative UI only. Not geographic evidence or measured facade.",
+  "assets": [
+    {
+      "file": "ginkgo-ornament-v1.png",
+      "size": [1254, 1254],
+      "mode": "RGBA",
+      "prompt": "Use case: stylized-concept. Asset type: standalone botanical ornament PNG for the blank lower area of an ivory campus-guide detail pane, shown about 220px wide at CSS opacity 0.25. Primary request: one delicate watercolor ginkgo sprig, airy and sparse with distinctive fan-shaped, gently notched ginkgo leaves and slender branching stems. Scene/backdrop: genuinely transparent alpha background, fully transparent empty areas. Composition/framing: square 1024x1024 desired; graceful diagonal branch originating near the lower-right corner and reaching upward and left, visual weight concentrated in the lower-right, generous open space toward upper-left, all foliage fully contained with a small margin. Approximately seven softly varied fan leaves; natural spacing. Style/medium: restrained botanical watercolor, fine visible fan veins, softly feathered pigment edges, light watery translucent wash, elegant understated campus stationery mood. Color palette: pale sage and muted olive greens with a slight straw-yellow touch, never saturated; subtle taupe stems. Constraints: output only the isolated sprig, not a UI screenshot or map; no text, logos, watermark, frame, border, paper backdrop, white rectangle, cast shadow or checkerboard pattern. Actual transparent alpha, preserve watercolor semi-transparency."
+    },
+    {
+      "file": "ivory-paper-v1.png",
+      "size": [1254, 1254],
+      "mode": "RGB",
+      "prompt": "Use case: stylized-concept. Asset type: a single standalone opaque square paper texture for a campus guide web interface panel and header background, desired 1024x1024. Primary request: near-uniform warm ivory #faf8f2 fine watercolor paper with extremely subtle natural cellulose fibers and fine tooth. Flat scan viewed straight on, evenly illuminated, uniformly faint microtexture across the full canvas including every edge, seamless-looking and suitable for tiling behind readable UI text. Very low contrast and nearly solid ivory when viewed small. No objects, leaves, paint marks, stains, blotches, gradients, shadows, vignette, frame, border, lettering, symbols, watermark, or transparency. It is blank paper only. Keep texture delicate and calm, no coarse crumples or pronounced crosshatching."
+    }
+  ]
+}

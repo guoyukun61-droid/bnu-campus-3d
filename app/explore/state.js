@@ -1,0 +1,17 @@
+export const GROUPS=[['','建筑','BUILDINGS'],['eating','吃喝','DINING'],['retail','购物','SHOPS'],['sports','运动','SPORT'],['services','服务','SERVICES'],['campus','校园','CAMPUS'],['all','全部','ALL']];
+export function shouldRoam(requested,reduced,hidden,tweening){return requested&&!reduced&&!hidden&&!tweening;}
+export function displayPoint(p){return p.display_anchor||p.location||null;}
+export function inModel(p){const q=displayPoint(p);return !!q&&Number.isFinite(q.x)&&Number.isFinite(q.y)&&Math.abs(q.x)<=452&&Math.abs(q.y)<=601;}
+// Exact, display-only correction. Never change the source category or location.
+export function normalizePlace(p){return p.id==='baidu-9d9d7030bb7bcc77e0110373'?{...p,display_category:'drinks',category_label:'咖啡饮品',collection_label:'饮品'}:p;}
+export function matchesCategory(p,category){return !category||category==='all'||(category==='eating'?['food','drinks'].includes(p.display_category):p.display_category===category);}
+export function filterPlaces(rows,category='',query=''){const q=query.trim().toLowerCase();return rows.filter(p=>matchesCategory(p,category)&&(!q||[p.name,p.address,p.spatial_sequence?.label].filter(Boolean).join(' ').toLowerCase().includes(q)));}
+export function positionNote(p){return p.display_anchor?'楼栋定位 · 入口待补':p.map_reference?'参照区域 · 具体楼栋待确认':!p.location?(p.spatial_sequence?'已知区域 · 具体位置待细化':'位置待补'):!inModel(p)?'模型范围外':'已有点位 · 入口未复测';}
+export function reduceState(state,event){switch(event.type){case 'category':return {...state,category:event.value,panel:'list',query:'',area:'',kind:'',limit:40,selected:null};case 'panel':return {...state,panel:event.value};case 'select':return {...state,selected:event.id,panel:'detail'};case 'close':return {...state,panel:null};default:return state;}}
+export function directorySelection(rows,state){return filterPlaces(rows,state.category,state.query).filter(p=>(!state.kind||p.display_category===state.kind)&&(!state.area||p.spatial_sequence?.group===state.area)).sort((a,b)=>state.area?(a.spatial_sequence?.order??999)-(b.spatial_sequence?.order??999):Number(!!b.spatial_sequence)-Number(!!a.spatial_sequence)||Number(inModel(b))-Number(inModel(a))||a.name.localeCompare(b.name,'zh-CN'));}
+export function pagePlaces(rows,limit=40){return {items:rows.slice(0,Math.max(40,limit)),remaining:Math.max(0,rows.length-Math.max(40,limit))};}
+export function areaGroups(rows){const groups=new Map();for(const row of rows){const s=row.spatial_sequence;if(!s)continue;if(!groups.has(s.group))groups.set(s.group,{id:s.group,label:s.label,rows:[]});groups.get(s.group).rows.push(row);}return [...groups.values()].map(g=>({...g,rows:g.rows.sort((a,b)=>(a.spatial_sequence.order??999)-(b.spatial_sequence.order??999))}));}
+// Aggregate only confirmed building IDs, never a map_reference building ID.
+export function markerGroups(rows,ids){if(!ids)return [];const groups=new Map();for(const row of rows.filter(r=>ids.has(r.id))){const key=row.building_id!=null?'building:'+row.building_id:'poi:'+row.id;if(!groups.has(key))groups.set(key,[]);groups.get(key).push(row);}return [...groups.values()].filter(rs=>rs.some(inModel)).map(rs=>({row:rs.find(inModel),ids:rs.map(r=>r.id)}));}
+export function selectionIds(cards,rows){const valid=new Set(rows.map(r=>r.id));return [...new Set(cards.map(c=>c.poi_id||c.id).filter(id=>valid.has(id)))];}
+export function easeCamera(t){return 1-Math.pow(1-Math.max(0,Math.min(1,t)),3);}

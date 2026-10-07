@@ -4,8 +4,11 @@ from pathlib import Path
 from urllib.parse import urlsplit, parse_qs
 import json, sqlite3, uuid, datetime, argparse, math
 from contextlib import contextmanager
+from backend.service import LifeService
+from backend.library import ReservationConflict
 ROOT=Path(__file__).resolve().parent
 DB=ROOT/'data/campus_info.sqlite3'
+LIFE_DIR=ROOT/'data/life'
 FIELDS={'id','revision','name','category','x','y','building_id','source','status','notes','hours','price','tags','updated_at','floor','unit'}
 CATEGORIES={'canteen','snack','shop','building','road','correction','other','gate'}
 @contextmanager
@@ -51,6 +54,8 @@ class Handler(SimpleHTTPRequestHandler):
     def do_GET(self):
         if not self.valid_host():return self.send_json(403,{'error':'Host rejected'})
         path=urlsplit(self.path).path
+        if path.startswith('/api/life/'):
+            return self.life_request(path, False)
         if path=='/api/health':return self.send_json(200,{'ok':True,'schema_version':1,'storage':'SQLite','scope':'loopback only'})
         if path=='/api/places':
             query=parse_qs(urlsplit(self.path).query)
@@ -63,7 +68,7 @@ class Handler(SimpleHTTPRequestHandler):
         if path.startswith('/api/'):return self.send_json(404,{'error':'Unknown endpoint'})
         # Do not expose the database, logs, source scripts or arbitrary directory listings.
         resolved=Path(self.translate_path(self.path)).resolve()
-        if not resolved.is_relative_to(ROOT) or resolved.is_relative_to(ROOT/'data') or resolved.suffix.lower() in {'.py','.sqlite3','.db','.log','.ps1','.cmd'}:
+        if not resolved.is_relative_to(ROOT) or any(part.startswith('.') for part in resolved.relative_to(ROOT).parts) or any(resolved.is_relative_to(ROOT/folder) for folder in ('data','backend','tests')) or resolved.suffix.lower() in {'.py','.sqlite3','.db','.log','.ps1','.cmd'}:
             return self.send_json(403,{'error':'Private file'})
         return super().do_HEAD() if self.command=='HEAD' else super().do_GET()
     def list_directory(self,path):return self.send_json(403,{'error':'Directory listing disabled'})
@@ -93,10 +98,33 @@ class Handler(SimpleHTTPRequestHandler):
                 c.execute('INSERT OR REPLACE INTO records VALUES(?,?,?)',(id,revision,json.dumps(payload,ensure_ascii=False)))
             return self.send_json(200 if updating else 201,payload)
         except (ValueError,TypeError,UnicodeError) as e:return self.send_json(400,{'error':str(e)})
-    def do_POST(self):self.write_record(False)
+    def life_request(self,path,writing):
+        if not self.valid_host():return self.send_json(403,{'error':'Host rejected'})
+        service=LifeService(LIFE_DIR,DB)
+        try:
+            if writing:
+                expected={f'http://127.0.0.1:{self.server.server_port}',f'http://localhost:{self.server.server_port}'}
+                if self.headers.get('Origin') not in expected:return self.send_json(403,{'error':'Same-origin local request required'})
+                if self.headers.get('Content-Type','').split(';')[0]!='application/json':return self.send_json(415,{'error':'JSON required'})
+                length=int(self.headers.get('Content-Length','0'))
+                if not 0<length<=32768:raise ValueError('请求大小须为 1–32768 字节')
+                data=json.loads(self.rfile.read(length))
+                result=service.post(path[len('/api/life'):],data)
+            else:
+                result=service.get(path[len('/api/life'):],parse_qs(urlsplit(self.path).query))
+            return self.send_json(200,result)
+        except ReservationConflict as error:return self.send_json(409,{'error':str(error)})
+        except KeyError:return self.send_json(404,{'error':'Unknown endpoint'})
+        except (ValueError,TypeError,UnicodeError) as error:return self.send_json(400,{'error':str(error)})
+        except OSError:return self.send_json(503,{'error':'本地数据暂不可用，请检查服务目录和文件权限'})
+    def do_POST(self):
+        path=urlsplit(self.path).path
+        if path.startswith('/api/life/'):return self.life_request(path,True)
+        self.write_record(False)
     def do_PUT(self):self.write_record(True)
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--port',type=int,default=8786);args=parser.parse_args()
-    init();print(f'Campus viewer + API: http://127.0.0.1:{args.port}/information/',flush=True)
+    from backend.bootstrap import initialize
+    init();initialize(LIFE_DIR);print(f'Campus viewer + API: http://127.0.0.1:{args.port}/white/',flush=True)
     ThreadingHTTPServer(('127.0.0.1',args.port),Handler).serve_forever()
 if __name__=='__main__':main()

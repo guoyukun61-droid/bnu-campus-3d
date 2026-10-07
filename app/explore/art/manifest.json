@@ -1,0 +1,10 @@
+{
+  "version": "1.7.0",
+  "mode": "illustrative_only",
+  "texture": "paper-plaster-v1.png",
+  "source": "built-in image generation, 2026-10-02",
+  "measured_facade": false,
+  "sample_buildings": [499434918, 499437078, 172257586],
+  "geometry_changed": false,
+  "limitations": "Generic illustrative mineral paper surface. No exact facade, window or floor reconstruction. GF2 roof observations do not determine facade materials. User shop photo is not bound to an identified mesh and is not used as texture."
+}

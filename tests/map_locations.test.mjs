@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {mapPosition} from '../app/map-locations.js';
+import {present} from '../app/presentation.js';
+const row={id:'l',name:'新名称',floor:'2',location:null,display_anchor:{x:3,y:4},display_category:'food'};
+assert.deepEqual(mapPosition(row),{x:3,y:4});
+assert.equal(row.location,null);
+assert.equal(mapPosition({map_reference:{x:1,y:2},location:null}),null);
+assert.deepEqual(mapPosition({location:{x:9,y:8}}),{x:9,y:8});
+const card=present({id:'l',type:'place',name:'旧名称',location:{x:9,y:9}},[row]);
+assert.equal(card.location,null);assert.equal(card.name,'新名称');assert.equal(card.floor,'2');
+assert.deepEqual(card.display_anchor,{x:3,y:4});
+assert.equal(present({poi_id:'l',type:'food',name:'菜品'},[row]).name,'菜品');
+console.log('map locations: 9 assertions passed');

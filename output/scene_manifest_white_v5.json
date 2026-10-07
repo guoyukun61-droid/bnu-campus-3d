@@ -1,0 +1,65 @@
+{
+  "version": "white-v5",
+  "coordinate_frame": "white_v4 / local EPSG:32650",
+  "added_surfaces": [
+    {
+      "osm_id": 267948582,
+      "name": "排球场",
+      "area_m2": 2057.71,
+      "coords": [
+        [
+          -103.23,
+          -182.56
+        ],
+        [
+          -62.67,
+          -179.31
+        ],
+        [
+          -66.75,
+          -128.9
+        ],
+        [
+          -107.31,
+          -132.16
+        ]
+      ],
+      "mesh": "Surface_V5_Restored_267948582"
+    },
+    {
+      "osm_id": 267948583,
+      "name": "东操场东侧未命名运动场地",
+      "area_m2": 935.63,
+      "coords": [
+        [
+          -100.77,
+          -212.06
+        ],
+        [
+          -58.59,
+          -211.7
+        ],
+        [
+          -58.79,
+          -189.51
+        ],
+        [
+          -100.97,
+          -189.89
+        ]
+      ],
+      "mesh": "Surface_V5_Restored_267948583"
+    }
+  ],
+  "added_buildings": 0,
+  "protected_meshes": 313,
+  "protected_geometry_check": true,
+  "heights_measured": false,
+  "polygons": 242261,
+  "trees": 900,
+  "windows": null,
+  "limitations": [
+    "No new court markings or floor counts inferred",
+    "South-campus ownership and snack-street POIs remain under review"
+  ]
+}

@@ -7,13 +7,16 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parent
 CURRENT_OUTPUT = {
+    'bnu_campus_web_white_v7.glb', 'bnu_campus_white_v7.blend', 'main-repair-v7.json',
+    'bnu_campus_web_white_v6.glb', 'bnu_campus_white_v6.blend', 'scene_manifest_white_v6.json',
+    'bnu_campus_web_white_v5.glb', 'bnu_campus_white_v5.blend', 'scene_manifest_white_v5.json',
     'bnu_campus_web_white_v4.glb', 'bnu_campus_white_v4.blend',
     'bnu_campus_web_v5.glb', 'bnu_campus_web_v6.glb',
     'scene_manifest_white_v4.json', 'scene_manifest_v5.json',
     'scene_manifest_v6.json', 'white_v4_spatial_checks.json',
 }
-PUBLIC_DIRS = {'assets', 'vendor', 'white', 'reference', 'recognition', 'information'}
-SUFFIXES = {'.html', '.js', '.cjs', '.css', '.json', '.png', '.jpg', '.jpeg',
+PUBLIC_DIRS = {'assets', 'vendor', 'white', 'reference', 'recognition', 'information', 'contribute', 'backend', 'docs', 'tests', 'app'}
+SUFFIXES = {'.html', '.js', '.cjs', '.mjs', '.css', '.json', '.png', '.jpg', '.jpeg',
             '.webp', '.svg', '.md', '.txt', '.py', '.ps1', '.cmd', '.map'}
 
 def release_files():
@@ -39,7 +42,8 @@ def main():
         raise ValueError('Invalid VERSION')
     files = list(release_files())
     required = {'index.html', 'white/index.html', 'campus_server.py',
-                'assets/campus_assets_white_v4.json', 'output/bnu_campus_web_white_v4.glb'}
+                'assets/campus_assets_white_v6.json', 'output/bnu_campus_web_white_v6.glb',
+                'app/explore/index.html', 'output/bnu_campus_web_white_v7.glb'}
     if not required.issubset({name for _, name in files}):
         raise ValueError('Required release files missing')
     destination = ROOT/'releases'

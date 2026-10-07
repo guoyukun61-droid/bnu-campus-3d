@@ -27,7 +27,7 @@ REVIEWED = {
 }
 
 def prepare():
-    assets = json.loads((ROOT/'assets/campus_assets_white_v3.json').read_text(encoding='utf-8'))
+    assets = json.loads((ROOT/'assets/campus_assets_white_v4.json').read_text(encoding='utf-8'))
     audit = json.loads((ROOT/'data/baidu_poi_audit_20260921.json').read_text(encoding='utf-8'))
     tx = Transformer.from_crs(4326, 32650, always_xy=True)
     ox, oy = assets['coordinate_system']['origin_utm']

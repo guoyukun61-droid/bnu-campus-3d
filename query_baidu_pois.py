@@ -8,7 +8,7 @@ from urllib.request import urlopen
 
 ROOT = Path(__file__).resolve().parent
 
-def main():
+def legacy_audit():
     key = os.environ.get('BAIDU_MAP_AK', '').strip()
     if not key:
         raise SystemExit('BAIDU_MAP_AK is not configured')
@@ -37,4 +37,5 @@ def main():
     print('Saved private POI audit; no AK stored; no geometry changed.')
 
 if __name__ == '__main__':
+    from backend.collector import main
     main()

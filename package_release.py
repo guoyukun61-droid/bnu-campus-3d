@@ -1,5 +1,6 @@
 """Build a local, private-review release. Never uploads or copies runtime data."""
 from pathlib import Path
+import argparse
 import hashlib
 import json
 import re
@@ -18,38 +19,46 @@ CURRENT_OUTPUT = {
 PUBLIC_DIRS = {'assets', 'vendor', 'white', 'reference', 'recognition', 'information', 'contribute', 'backend', 'docs', 'tests', 'app'}
 SUFFIXES = {'.html', '.js', '.cjs', '.mjs', '.css', '.json', '.png', '.jpg', '.jpeg',
             '.webp', '.svg', '.md', '.txt', '.py', '.ps1', '.cmd', '.map'}
+NOTICE_NAMES = {'LICENSE', 'LICENCE', 'NOTICE', 'COPYING'}
+
+
+def permitted(rel):
+    if any(p.startswith('.') or p == '__pycache__' for p in rel.parts):
+        return rel.as_posix() == '.gitignore'
+    if len(rel.parts) == 1:
+        return rel.suffix.lower() in SUFFIXES or rel.name in {'VERSION'} | NOTICE_NAMES
+    if rel.parts[0] == 'output':
+        return len(rel.parts) == 2 and rel.name in CURRENT_OUTPUT
+    return rel.parts[0] in PUBLIC_DIRS and (rel.suffix.lower() in SUFFIXES or rel.name.upper() in NOTICE_NAMES)
 
 def release_files():
     for path in sorted(ROOT.rglob('*')):
         if not path.is_file():
             continue
         rel = path.relative_to(ROOT)
-        if any(p.startswith('.') or p == '__pycache__' for p in rel.parts):
-            if rel.as_posix() != '.gitignore':
-                continue
-        if len(rel.parts) == 1:
-            allowed = path.suffix.lower() in SUFFIXES or path.name in {'VERSION', '.gitignore'}
-        elif rel.parts[0] == 'output':
-            allowed = len(rel.parts) == 2 and path.name in CURRENT_OUTPUT
-        else:
-            allowed = rel.parts[0] in PUBLIC_DIRS and path.suffix.lower() in SUFFIXES
-        if allowed:
+        if permitted(rel):
             yield path, rel.as_posix()
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--revision', default='', help='Keep an earlier local draft; create a separately named reviewed archive')
+    args = parser.parse_args()
+    if args.revision and not re.fullmatch(r'[a-z0-9-]+', args.revision):
+        raise ValueError('Invalid archive revision')
     version = (ROOT/'VERSION').read_text(encoding='utf-8').strip()
     if not re.fullmatch(r'\d+\.\d+\.\d+', version):
         raise ValueError('Invalid VERSION')
     files = list(release_files())
     required = {'index.html', 'white/index.html', 'campus_server.py',
                 'assets/campus_assets_white_v6.json', 'output/bnu_campus_web_white_v6.glb',
-                'app/explore/index.html', 'output/bnu_campus_web_white_v7.glb'}
+                'app/explore/index.html', 'output/bnu_campus_web_white_v7.glb', 'vendor/three/LICENSE'}
     if not required.issubset({name for _, name in files}):
         raise ValueError('Required release files missing')
     destination = ROOT/'releases'
     destination.mkdir(exist_ok=True)
-    archive = destination/f'bnu-campus-v{version}.zip'
-    manifest = destination/f'bnu-campus-v{version}.manifest.json'
+    stem = f'bnu-campus-v{version}' + (f'-{args.revision}' if args.revision else '')
+    archive = destination/f'{stem}.zip'
+    manifest = destination/f'{stem}.manifest.json'
     if archive.exists() or manifest.exists():
         raise FileExistsError('Release already exists; do not overwrite it. Update VERSION first.')
     entries = []

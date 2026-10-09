@@ -30,4 +30,18 @@ const detail=reduceState(state,{type:'select',id:'p150'});
 assert.equal(detail.area,'alley');assert.equal(detail.limit,40);
 assert.equal(reduceState(detail,{type:'category',value:'eating'}).area,'');
 assert.equal(rows[150].location,null);
-console.log('explore-directory: complete pagination, missing positions, category, area and building aggregation passed');
+const dining=[{id:'canteen-3',name:'学三食堂',display_category:'food',floor:'3'},
+  {id:'canteen-4',name:'学四食堂',display_category:'food',floor:'4'},
+  {id:'other-third',name:'科技楼三层服务点',display_category:'services',floor:'3'},
+  {id:'other-fourth',name:'其他楼四层餐厅',display_category:'food',floor:'4'},
+  {id:'known-alias',name:'正式名',display_category:'food',aliases:['已批准别名',7,null,{name:'不可检索'}]},
+  {id:'bad-alias',name:'错误别名格式',display_category:'food',aliases:'不应隐式解释的字符串'}];
+const before=JSON.stringify(dining);
+for(const q of ['新三','学三','新乐群三层',' 新三 '])assert.deepEqual(filterPlaces(dining,'eating',q).map(p=>p.id),['canteen-3']);
+for(const q of ['新四','学四','新乐群四层'])assert.deepEqual(filterPlaces(dining,'all',q).map(p=>p.id),['canteen-4']);
+assert.equal(filterPlaces(dining,'services','新三').length,0,'Aliases must not bypass category selection');
+assert.deepEqual(filterPlaces(dining,'food','已批准别名').map(p=>p.id),['known-alias']);
+for(const q of ['不可检索','不应隐式解释的字符串'])assert.equal(filterPlaces(dining,'all',q).length,0);
+assert.deepEqual(directorySelection(dining,{category:'eating',query:'新四',area:'',kind:'food',limit:40}).map(p=>p.id),['canteen-4']);
+assert.equal(JSON.stringify(dining),before,'Search must not rename or mutate published records');
+console.log('explore-directory: complete pagination, known aliases, missing positions, category, area and building aggregation passed');

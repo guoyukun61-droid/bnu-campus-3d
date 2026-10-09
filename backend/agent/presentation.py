@@ -34,7 +34,8 @@ def category_info(record):
 
 
 def public_source(value):
-    if value in ('simulated', 'menu_photo', 'baidu_place_v2', 'field_observation'):
+    if value in ('simulated', 'menu_photo', 'baidu_place_v2', 'field_observation',
+                 'official_menu', 'inferred', 'illustrative', 'generated', 'unknown', 'published', 'user_reported'):
         return value
     if isinstance(value, str) and value.startswith('user_'):
         return 'user_reported'

@@ -65,7 +65,12 @@ class CatalogAdapter:
                     retrieved_at=p.get("retrieved_at"),status=p["status"],menu_status="missing"))
                 linked.add(p["id"])
         from .contribution import overlay
-        return overlay(result, read(self.directory/"contributions/state.json", {}))
+        from .official_sources import supplement_hours, supplement_services
+        from .catalog_identity import normalize_identity
+        from .confirmed_relations import apply_confirmed_relations
+        result=overlay(result, read(self.directory/"contributions/state.json", {}))
+        result=supplement_hours(result,read(self.directory/"official_sources/verified-20261008.json",{}))
+        return apply_confirmed_relations(normalize_identity(supplement_services(result,read(self.directory/"official_sources/services-20261008.json",{}))))
 
 class SimulatedCrowdAdapter:
     source="simulated"

@@ -1,0 +1,24 @@
+{
+  "rule_version": "1.20.0-data.3",
+  "coordinate_frame": {
+    "crs": "local EPSG:32650",
+    "origin_utm": [445334.2137655129, 4423619.17603345],
+    "axes": "x east, y north; metres relative to campus model origin"
+  },
+  "nearby_radius_m": 250,
+  "nearest_neighbors_per_poi": 8,
+  "minimum_direction_distance_m": 15,
+  "max_local_coordinate_m": 5000,
+  "complementary_services": [
+    {"services": ["dining", "beverages"], "task": "用餐与饮品搭配候选"},
+    {"services": ["study", "beverages"], "task": "学习前后饮品候选"},
+    {"services": ["study", "printing"], "task": "学习与资料打印候选"},
+    {"services": ["study", "dining"], "task": "学习前后用餐候选"}
+  ],
+  "limitations": [
+    "阈值是可调整的探索规则，不是经过实验验证的最优参数。",
+    "直线距离不是步行路线、入口距离、耗时或无障碍通行保证。",
+    "同类及互补关系仅供比较和发现，不代表满足预算、饮食限制、营业或预约条件。",
+    "没有路网、闸门通行与实时营业证据时，不生成可达、顺路或当前可用结论。"
+  ]
+}

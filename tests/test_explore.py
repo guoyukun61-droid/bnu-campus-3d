@@ -26,13 +26,26 @@ class ExploreHTTPTests(unittest.TestCase):
         for path in ('/data/life/contributions/state.json','/explore/../../CLAUDE.md','/explore/art/source.jpg','/explore/art/','/explore/art/ui-provenance-1.11.json'):
             with self.assertRaises(urllib.error.HTTPError) as error:urllib.request.urlopen(self.base+path)
             self.assertEqual(error.exception.code,404)
+    def test_atelier_exact_routes_and_provenance(self):
+        for path in ('/explore/?art=atelier','/explore/atelier.js','/explore/art/atelier-plaster-v1.png'):
+            with urllib.request.urlopen(self.base+path) as response:
+                self.assertEqual(response.status,200)
+                self.assertGreater(len(response.read()),100)
+        with urllib.request.urlopen(self.base+'/explore/art/atelier-manifest-v1.json') as response:
+            manifest=json.load(response)
+        self.assertFalse(manifest['geometry_changed'])
+        self.assertFalse(manifest['measured_facade'])
+        self.assertEqual(len(manifest['sample_buildings']),4)
     def test_watercolour_assets_have_exact_public_routes(self):
-        for name in ('ginkgo-ornament-v1.png','ivory-paper-v1.png'):
+        for name in ('ginkgo-ornament-v1.png','ivory-paper-v1.png','atlas-ornament-v1.png'):
             with urllib.request.urlopen(self.base+'/explore/art/'+name) as r:
                 self.assertEqual(r.status,200)
                 self.assertEqual(r.headers['Content-Type'],'image/png')
                 self.assertEqual(r.read(8),b'\x89PNG\r\n\x1a\n')
                 self.assertEqual(r.headers['X-Content-Type-Options'],'nosniff')
+        with self.assertRaises(urllib.error.HTTPError) as error:
+            urllib.request.urlopen(self.base+'/explore/art/atlas-ornament-v1.manifest.json')
+        self.assertEqual(error.exception.code,404)
     def test_building_directory_is_public_projection(self):
         with urllib.request.urlopen(self.base+'/api/app/buildings') as r:d=json.load(r)
         self.assertEqual(d['model'],'white_v7')

@@ -1,0 +1,13 @@
+{
+  "version": "1.13.0",
+  "mode": "illustrative_only",
+  "texture": "atelier-plaster-v1.png",
+  "source": "built-in image generation, 2026-10-07",
+  "measured_facade": false,
+  "geometry_changed": false,
+  "sample_buildings": [499434918, 499437078, 499437130, 681441380],
+  "floors": {"499434918": 4, "499437078": 2, "499437130": 2, "681441380": 2},
+  "floor_basis": "Existing snack_blocks_v6; floor counts used for illustrative window rhythm only. Ground-floor windows are not located shop entrances.",
+  "roof_palette_basis": "Existing GF2 qualitative roof observations, not measured facade colors or new georeferencing.",
+  "limitations": "No independent floor or facade survey. Window spacing, paper plaster and palette are artistic. Existing tree locations and mesh silhouettes preserved. Local static shadows cover demonstration area only. Texture failure falls back to procedural colors."
+}

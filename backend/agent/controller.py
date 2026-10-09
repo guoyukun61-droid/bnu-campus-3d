@@ -5,9 +5,11 @@ from .model import DeepSeekModel, ModelError, config
 from .tools import CampusTools, TOOLS
 from .prompts import SYSTEM
 from .candidates import merge_conditions
+from .context import resolve_context, previous_entities_from_cards
+from .evidence import EvidenceLedger, PLAN_INSTRUCTION, entity_ref
 from ..storage import now
 
-LABELS={'search_places':'查找校园地点','get_place':'读取场所资料','recommend_food':'比较预算与用餐条件','get_schedule':'查询模拟课表'}
+LABELS={'search_places':'查找校园地点','get_place':'读取场所资料','get_entity':'读取建筑或窗口资料','recommend_food':'比较预算与用餐条件','get_schedule':'查询模拟课表','get_related_places':'探索地点关系与依据'}
 
 
 class AgentController:
@@ -26,12 +28,42 @@ class AgentController:
         for h in history[-12:]:
             if not isinstance(h,dict) or h.get('role') not in ('user','assistant') or not isinstance(h.get('content'),str):raise ValueError('历史格式无效')
             turns.append(dict(role=h['role'],content=h['content'][:2000]))
-        locations=self.tools.directory()['locations']
+        tools=self.tools.frozen() if hasattr(self.tools,'frozen') else self.tools
+        locations=tools.directory()['locations']
+        context=resolve_context(tools,request.get('context'),request.get('previous_entities'),mode)
         previous=request.get('previous_poi_ids',[])
         if not isinstance(previous,list) or any(not isinstance(x,str) or len(x)>100 for x in previous):raise ValueError('上轮地点格式无效')
-        messages=[dict(role='system',content=SYSTEM+'\n服务端当前时间：'+now()+'\n当前条件：'+json.dumps(conditions,ensure_ascii=False)+
-            '\n界面模式：'+mode+'\n已知位置ID：'+json.dumps(locations,ensure_ascii=False)+'\n上轮推荐POI（仅供换一家排除）：'+json.dumps(previous[:3],ensure_ascii=False))]+turns+[dict(role='user',content=message)]
-        cards=[];rejected={};notice='';clarification=None;calls=0;repairs=0;usage={'prompt_tokens':0,'completion_tokens':0};executed=False
+        messages=[dict(role='system',content=SYSTEM+'\n'+PLAN_INSTRUCTION+'\n服务端当前时间：'+now()+'\n当前条件：'+json.dumps(conditions,ensure_ascii=False)+
+            '\n界面模式：'+mode+'\n已知位置ID：'+json.dumps(locations,ensure_ascii=False)+'\n地图选择与上轮对象（仅引用，不代表用户当前位置）：'+json.dumps(context,ensure_ascii=False)+
+            '\n上轮推荐POI（仅供换一家排除）：'+json.dumps(previous[:3],ensure_ascii=False))]+turns+[dict(role='user',content=message)]
+        cards=[];rejected={};notice='';clarification=None;calls=0;repairs=0;usage={'prompt_tokens':0,'completion_tokens':0};executed=False;related_query=False
+        ledger=EvidenceLedger();relations=[];entities=[];scope=None;recommendation_active=False
+        for warning in context['notices']:ledger.add(warning,kind='limitation')
+
+        def finish(content,model_calls):
+            if rejected:ledger.add('未入选原因：'+'、'.join(rejected),kind='limitation')
+            if executed:
+                summary=('已整理相关地点与关系。' if related_query else ('为你整理了以下候选。' if cards or entities else '目前没有找到符合这些条件的结果。'))+' '+notice
+                if rejected:summary+=' 未入选原因：'+'、'.join(rejected)
+            else:
+                summary='你好，我是京师智行。可以帮你查地点、比较窗口和菜单、按预算筛选候选。你也可以先点选地图中的建筑，再问“这里有什么”。'
+            if context['notices']:summary+=' '+' '.join(context['notices'])
+            composed=ledger.compose(content,summary,clarification)
+            refs=previous_entities_from_cards(cards)
+            for entity in entities:
+                ref=entity.get('ref')
+                if ref and ref not in refs and len(refs)<12:refs.append(ref)
+            for related in relations:
+                for row in [related.get('anchor',{})]+related.get('items',[]):
+                    ref=entity_ref(row.get('ref'))
+                    if ref and ref not in refs and len(refs)<12:refs.append(ref)
+            result=dict(**composed,cards=cards,conditions=conditions,clarification=clarification,rejected=rejected,mode=mode,
+                        generated_at=now(),usage=usage,model_calls=model_calls,tool_calls=calls,
+                        contract_version='agent-answer.v2',relations=relations,entities=entities,scope=scope,
+                        evidence=ledger.facts,limitations=ledger.limitations[:40],map_actions=ledger.actions,
+                        context=dict(context,previous_entities=refs or context['previous_entities']))
+            emit(dict(type='result',data=result));return result
+
         emit(dict(type='status',text='正在理解你的需求'))
         for _ in range(cfg['max_model_calls']):
             if cancelled():raise ModelError('请求已取消','CANCELLED',False)
@@ -40,16 +72,7 @@ class AgentController:
             for k in usage:usage[k]+=spent.get(k,0)
             tool_calls=answer.get('tool_calls') or []
             if not tool_calls:
-                if clarification:text=clarification
-                elif executed:
-                    text=('为你整理了以下候选。' if cards else '目前没有找到符合这些条件的结果。')+' '+notice
-                    if rejected:text+=' 未入选原因：'+'、'.join(rejected)
-                else:
-                    # Model prose without business tools cannot become a source of campus facts.
-                    text='我是京师智行，可以查店铺、菜单、营业资料和模拟课表，也可以按预算筛选用餐候选。请告诉我店名或用餐预算。你也可以在“发现店铺”直接浏览。'
-                result=dict(answer=text,cards=cards,conditions=conditions,clarification=clarification,rejected=rejected,mode=mode,
-                    generated_at=now(),usage=usage,model_calls=_+1,tool_calls=calls)
-                emit(dict(type='result',data=result));return result
+                return finish(answer.get('content'),_+1)
             clean={k:v for k,v in answer.items() if k in ('role','content','tool_calls')};clean['role']='assistant';messages.append(clean)
             for call in tool_calls:
                 if cancelled():raise ModelError('请求已取消','CANCELLED',False)
@@ -59,15 +82,30 @@ class AgentController:
                 emit(dict(type='status',text=LABELS.get(name,'检查工具参数')))
                 try:
                     args=json.loads(call['function']['arguments'])
-                    result=self.tools.execute(name,args,conditions,mode)
+                    result=tools.execute(name,args,conditions,mode)
                     if 'conditions' in result:conditions=result['conditions']
-                    clarification=result.get('clarification')
-                    if name=='recommend_food':cards=result.get('cards',[]);rejected=result.get('rejected',{})
-                    else:
+                    if name=='recommend_food':scope=result.get('scope')
+                    if 'clarification' in result:clarification=result['clarification']
+                    if name=='recommend_food':
+                        cards=result.get('cards',[]);rejected=result.get('rejected',{})
+                        # A changed budget/scope invalidates previously selectable facts.
+                        # Subsequent detail queries must not append unfiltered candidates.
+                        recommendation_active=True;ledger=EvidenceLedger()
+                        for warning in context['notices']:ledger.add(warning,kind='limitation')
+                    elif not recommendation_active:
                         for card in result.get('cards',[]):
                             cards=[c for c in cards if c['id']!=card['id']];cards.append(card)
                         cards=cards[:12]
                     notice=result.get('notice','');executed=True
+                    if isinstance(result.get('related_places'),dict):
+                        related_query=True
+                        relations.append(result['related_places']);relations=relations[-4:]
+                    for entity in result.get('entities',[]):
+                        entities=[e for e in entities if e.get('ref')!=entity.get('ref')]+[entity]
+                    entities=entities[:24]
+                    if name=='recommend_food' or not recommendation_active:ledger.ingest(result)
+                    # Model sees the same public fact IDs that the renderer will validate.
+                    result=dict(result,answer_evidence=ledger.facts)
                     emit(dict(type='cards',cards=cards,conditions=conditions))
                 except (ValueError,KeyError,TypeError):
                     repairs+=1
@@ -76,7 +114,5 @@ class AgentController:
                 messages.append(dict(role='tool',tool_call_id=call['id'],content=json.dumps(result,ensure_ascii=False)))
         # Tools may finish at the last model round. Deliver their factual result without another LLM call.
         if executed:
-            result=dict(answer=clarification or ('请查看以下查询结果。 '+notice),cards=cards,conditions=conditions,clarification=clarification,
-                        rejected=rejected,mode=mode,generated_at=now(),usage=usage,model_calls=cfg['max_model_calls'],tool_calls=calls)
-            emit(dict(type='result',data=result));return result
+            return finish(None,cfg['max_model_calls'])
         raise ModelError('本轮未获得有效结果，请重试。')

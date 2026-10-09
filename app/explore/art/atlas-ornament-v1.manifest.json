@@ -1,0 +1,15 @@
+{
+  "version": "1.20.0-ui.1",
+  "asset": "atlas-ornament-v1.png",
+  "created": "2026-10-09",
+  "source": "OpenAI built-in image generation",
+  "purpose": "Original decorative ginkgo engraving for UI margins; not geographic evidence",
+  "transparent_background": true,
+  "geometry_changed": false,
+  "measured_facade": false,
+  "sha256": "b08e9f03bb95d24e1eaa187b337c7d1963f10bf9c92982a3e72608612315c2de",
+  "prompt_document": "docs/ui-1.20-research-and-prompts.md",
+  "animation": "CSS/WAAPI and Three.js are runtime animation; this PNG itself is static",
+  "public_route": "/explore/art/atlas-ornament-v1.png",
+  "manifest_public": false
+}
